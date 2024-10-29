@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Avatar, Box, Collapse, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import AvatarHead from "./EachWorker/avatarHead"
+import AvatarHead from "./EachWorker/AvatarHead"
 import MyTable from "./EachWorker/MyTable"
 import { useParams } from "react-router-dom"
 import axios from 'axios'
