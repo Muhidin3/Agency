@@ -1,0 +1,22 @@
+.header{
+    background-color: #40a9ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+    color: #262626;
+}
+.header h1{
+    display: inline-block;
+    /* background-color: green; */
+}
+.header ul{
+    list-style-type: none;
+    /* background-color: red; */
+    float: right;
+    margin-right: 40px;
+}
+.header li{
+    float: left;
+    margin: 5% 10px;
+    /* background-color: yellow; */
+}
