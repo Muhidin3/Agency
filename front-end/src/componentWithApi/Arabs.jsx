@@ -16,7 +16,7 @@ function Arabs() {
     
     useEffect(()=>{
         async function fetchdata() {
-            const responce = await axios.get('http://localhost:4000/api/arabs')
+            const responce = await axios.get('/api/arabs')
             // console.log(responce.data)
             setArabs(responce.data)
             setLoading(false)
@@ -28,7 +28,7 @@ function Arabs() {
 
     async function handlenumberOfWorkers(v) {
         const id = v._id
-        const res = await axios.get('http://localhost:4000/api/arabworkers/'+id)
+        const res = await axios.get('/api/arabworkers/'+id)
         const resdata = res.data
         setNum((p)=>([...p,resdata.length]))
         // console.log(resdata.length)

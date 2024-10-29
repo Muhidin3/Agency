@@ -17,7 +17,7 @@ function EachWorker(props) {
     
     useEffect(()=>{
         async function fetchData(params) {
-            const responce = await axios.get('http://localhost:4000/api/workers/'+id)
+            const responce = await axios.get('/api/workers/'+id)
             setinData(responce.data)
             setLoading(false)
             
@@ -47,24 +47,3 @@ function EachWorker(props) {
 }
 
 export default EachWorker
-
-
-
-
-// const [isLoading,setIsloading] = useState(true)
-// // const data = olddata
-// // const [data,setdata] = useState(olddata)
-
-// const [keys,setKeys] = useState(Object.keys(data))
-// const[collapse,setCollapse]= useState(keys.map(()=>false))
-
-//chat
-//for collapse
-
-
-
-
-
-// if (isLoading) {
-//     return(<><Typography>Loading</Typography></>)
-// }

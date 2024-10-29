@@ -12,7 +12,7 @@ function RecentWorkers() {
 
     useEffect(()=>{
         const fetchData = async () => {
-            const res = await fetch('http://localhost:4000/api/workers')
+            const res = await fetch('/api/workers')
             .then(async (res)=> await  res.json())
             setData(res)
         }

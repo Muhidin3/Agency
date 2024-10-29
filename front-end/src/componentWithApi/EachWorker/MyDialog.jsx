@@ -24,7 +24,7 @@ function MyDialog(props) {
       async function handleSubmit(e) {
         e.preventDefault()
         // eslint-disable-next-line no-unused-vars
-        const responce = await axios.patch("http://localhost:4000/api/workers/"+props.id,{[dialogData]:formData})
+        const responce = await axios.patch("/api/workers/"+props.id,{[dialogData]:formData})
         console.log('clg submitted \n ' ,{[dialogData]:formData})
       }
 

@@ -17,7 +17,7 @@ function Workers() {
 
     useEffect(()=>{
         const fetchData = async () => {
-            const res = await fetch('http://localhost:4000/api/arabworkers/'+id)
+            const res = await fetch('/api/arabworkers/'+id)
             .then(async (res)=> await  res.json())
             setData(res)
         }
