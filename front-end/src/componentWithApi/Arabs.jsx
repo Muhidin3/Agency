@@ -13,10 +13,12 @@ function Arabs() {
     const [formData,setFormData] = useState({name:'',id:''})
     const [numberOfWorkers,setNum] = useState([])
     const navigate = useNavigate()
-    
+    const url = import.meta.env.VITE_HOST
+
     useEffect(()=>{
         async function fetchdata() {
-            const responce = await axios.get('/api/arabs')
+            const responce = await axios.get(url+'api/arabs')
+            console.log(responce.data)
             // console.log(responce.data)
             setArabs(responce.data)
             setLoading(false)
@@ -28,7 +30,7 @@ function Arabs() {
 
     async function handlenumberOfWorkers(v) {
         const id = v._id
-        const res = await axios.get('/api/arabworkers/'+id)
+        const res = await axios.get(url+'api/arabworkers/'+id)
         const resdata = res.data
         setNum((p)=>([...p,resdata.length]))
         // console.log(resdata.length)

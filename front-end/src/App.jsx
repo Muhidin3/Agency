@@ -5,7 +5,7 @@ import {Grid} from '@mui/material';
 import Header from './components/Header';
 // import DashBoard from './components/dashboard';
 import RecentWorkers from './componentWithApi/RecentWorkers';
-// import Try from './componentWithApi/try';
+import Try from './componentWithApi/Try';
 import EachWorker from './componentWithApi/EachWorker';
 import { Route, Router,Routes } from 'react-router-dom';
 import Dashboard from './components/Dashboard';

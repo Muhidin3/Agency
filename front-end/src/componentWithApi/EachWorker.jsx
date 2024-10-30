@@ -14,10 +14,10 @@ function EachWorker(props) {
     const data = indata
     const [loading,setLoading] = useState(true)
     const {id} = useParams()
-    
+    const url = import.meta.env.VITE_HOST
     useEffect(()=>{
         async function fetchData(params) {
-            const responce = await axios.get('/api/workers/'+id)
+            const responce = await axios.get(url+'api/workers/'+id)
             setinData(responce.data)
             setLoading(false)
             

@@ -2,24 +2,30 @@
 import { Button, Collapse, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 // eslint-disable-next-line no-unused-vars
 import { Box } from "@mui/system"
+import axios from "axios"
 import { useEffect, useState } from "react"
 import {useNavigate} from 'react-router-dom'
+import MyLoading from "./EachWorker/MyLoading"
+// import dotenv from 'dotenv'
 
 function RecentWorkers() {
+    
     const [data,setData] = useState([])
     const [isLoading,setIsLoading]= useState(true)
     const navigate = useNavigate()
+    const url = import.meta.env.VITE_HOST
 
     useEffect(()=>{
         const fetchData = async () => {
-            const res = await fetch('/api/workers')
-            .then(async (res)=> await  res.json())
-            setData(res)
+            const res = await axios.get(url+'api/workers')
+            // .then(async (res)=> await  res.json())
+            setData(res.data)
+            console.log(res.data)
         }
         fetchData()
         setIsLoading(false)
     
-    },[])
+    },[url])
 
     const handleClick = (id) => {
         navigate('/eachWorker/'+ id)
@@ -28,7 +34,7 @@ function RecentWorkers() {
 
 
     if (isLoading) {
-        return<><h1>Loading</h1></>
+        return<><MyLoading /></>
     } else {
         return(
             <>

@@ -14,10 +14,11 @@ function Workers() {
     const {id} = useParams()
     const [dialog,setDialog] = useState(false)
     const [formData,setFormData] = useState('')
+    const url = import.meta.env.VITE_HOST
 
     useEffect(()=>{
         const fetchData = async () => {
-            const res = await fetch('/api/arabworkers/'+id)
+            const res = await fetch(url+'api/arabworkers/'+id)
             .then(async (res)=> await  res.json())
             setData(res)
         }

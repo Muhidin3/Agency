@@ -13,7 +13,7 @@ function MyDialog(props) {
     const setDialog = props.setDialog
     // const [formData,setFormData]= useState({[dialogData]:data[dialogData]})
     const [formData,setFormData]= useState(data[dialogData])
-
+    const url = import.meta.env.VITE_HOST
       function handleChange(e,v) {
 
         setFormData((p)=>{return({...p,[v]:e.target.value})})
@@ -24,7 +24,7 @@ function MyDialog(props) {
       async function handleSubmit(e) {
         e.preventDefault()
         // eslint-disable-next-line no-unused-vars
-        const responce = await axios.patch("/api/workers/"+props.id,{[dialogData]:formData})
+        const responce = await axios.patch(url+"api/workers/"+props.id,{[dialogData]:formData})
         console.log('clg submitted \n ' ,{[dialogData]:formData})
       }
 
