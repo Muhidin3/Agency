@@ -18,7 +18,7 @@ function Arabs() {
     useEffect(()=>{
         async function fetchdata() {
             const responce = await axios.get(url+'api/arabs')
-            console.log(responce.data)
+            // console.log(responce.data)
             // console.log(responce.data)
             setArabs(responce.data)
             setLoading(false)
@@ -42,7 +42,7 @@ function Arabs() {
     
     async function handleSubmit() {
         // eslint-disable-next-line no-unused-vars
-        const responce = await axios.post('http://localhost:4000/api/arabs',formData)
+        const responce = await axios.post(url+'api/arabs',formData)
         console.log('submitted')
     }
 
@@ -70,20 +70,20 @@ function Arabs() {
             <Button onClick={()=>setDialog(!dialog)} variant="contained">New Arab</Button>
 
             <Dialog open={dialog}>
-                <DialogTitle sx={{backgroundColor:"wheat"}}>
-                    New Arab
+                <DialogTitle sx={{backgroundColor:"primary.main",mb:2}}>
+                   <Typography sx={{color:"text.main"}} variant="h4">New Arab</Typography> 
                 </DialogTitle>
 
                 <DialogContent >
                    
-                    <Typography sx={{display:"inline-block",minWidth:"20%"}} variant="h5">Name: </Typography>
+                    <Typography sx={{display:"inline-block",minWidth:"20%", pt:1,pr:2}} variant="h5">Name: </Typography>
 
                     <TextField label='Name' name="name" size="small" onChange={(e)=>handleChange(e)} sx={{mt:1}}/>
                     <br/>
                     <br/>
-                    <Typography sx={{display:"inline-block",minWidth:"23%"}} variant="h5">Id: </Typography>
+                    {/* <Typography sx={{display:"inline-block",minWidth:"23%"}} variant="h5">Id: </Typography> */}
 
-                    <TextField label='Id' name="id" size="small" onChange={(e)=>handleChange(e)}/>
+                    {/* <TextField label='Id' name="id" size="small" onChange={(e)=>handleChange(e)}/> */}
 
                 </DialogContent>
 
@@ -111,7 +111,7 @@ function Arabs() {
                 {arabs.map((v,i)=>{
                     handlenumberOfWorkers(v)
                     return(
-                    <TableRow key={i} sx={{":hover":{backgroundColor:"secondary.main"},cursor:"pointer"}}>
+                    <TableRow key={i} sx={{":hover":{backgroundColor:"primary.light",borderRadius:"20px"},cursor:"pointer",borderRadius:"20px"}}>
                         <TableCell onClick={()=>handleClick(v)}>
                             <Typography>{v.name}</Typography>
                             

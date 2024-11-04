@@ -3,7 +3,6 @@ import React from 'react';
 import { Container, Typography,List,ListItem,ListItemText,ListItemIcon } from '@mui/material';
 import {Grid} from '@mui/material';
 import Header from './components/Header';
-// import DashBoard from './components/dashboard';
 import RecentWorkers from './componentWithApi/RecentWorkers';
 import Try from './componentWithApi/Try';
 import EachWorker from './componentWithApi/EachWorker';
@@ -11,14 +10,17 @@ import { Route, Router,Routes } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Arabs from './componentWithApi/Arabs';
 import Workers from './components/Workers';
+import SideNav from './components/SideNav';
+import Footer from './components/Footer';
 
 
 
 function App() {
   return (
     <>
+    <SideNav/>
     <Header/>
-    <Container >
+    <Container sx={{padding:{xs:1,sm:"30px",md:10,lg:10,xl:0}}} maxWidth={'xl'} >
     <Routes>
       <Route path='/' element={<Dashboard/>}></Route>
       <Route path='/recentWorkers' element={<RecentWorkers/>}></Route>
@@ -26,9 +28,10 @@ function App() {
       <Route path='/try' element={<Try />}></Route>
       <Route path='/arabs' element={<Arabs />}></Route>
       <Route path='/workers/:id' element={<Workers/>}/>
-    </Routes>
     
+  </Routes>
    </Container> 
+  <Footer/>
     </>
     
   )

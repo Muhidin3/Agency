@@ -12,12 +12,22 @@ import { BrowserRouter } from 'react-router-dom'
 const theme = createTheme({
   palette:{
     primary:{
-      main:"#1890ff"
+      main:"#001F3F", //dark blue,
+      light:"#DBE2EF",
+      dark:'#F9F7F7'
     },
     secondary:{
-      main:"#f0f0f0"
+      main:"#3F72AF", //light blue
+    },
+    
+    text:{
+      main:"#DBE2EF",
+      primary:"#001F3F",
+      secondary:'#5f5f5f'
     }
-  }
+
+  
+  },
 })
 createRoot(document.getElementById('root')).render(
   <StrictMode>

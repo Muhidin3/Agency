@@ -6,7 +6,7 @@ function AvatarHead(props) {
   return (
     <>  
     <Paper elevation={3} sx={{borderRadius:'20px'}}>
-        <Box sx={{p:2,bgcolor:"#40a9ff",mb:3,borderRadius:'20px'}}>   
+        <Box sx={{p:2,bgcolor:"",mb:3,borderRadius:'20px'}}>   
 
 
     <Stack direction="row" spacing={0} alignItems="center">

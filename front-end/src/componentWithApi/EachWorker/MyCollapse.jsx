@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import { Collapse, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import CamelToSpaces from "../../components/CamelToSpaces";
 
 function MyCollapse(props) {
     const data = props.data
@@ -23,10 +24,14 @@ function MyCollapse(props) {
                 <Table size="small">
                     <TableBody>
                         <TableRow>
-                            <TableCell>
-                                <Typography>{keyValue}:{data[keyValue]==null?'none':data[keyValue]==false?'false':data[keyValue]==true?'true':data[keyValue]} </Typography>
+                            <TableCell sx={{width:"100%"}}>
+                                <Typography>
+                                <CamelToSpaces text={keyValue}/>
+                                {/* {keyValue} */}
+                                : </Typography>
                             </TableCell>
-                            <TableCell >
+                            <TableCell>
+                            {data[keyValue]==null?'none':data[keyValue]==false?'false':data[keyValue]==true?'true':data[keyValue]}
                                 {/* <Typography>a</Typography> */}
                             </TableCell>
                         </TableRow>

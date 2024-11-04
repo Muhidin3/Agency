@@ -47,7 +47,7 @@ function MyDialog(props) {
                 {formData[v]}
 
                         </TableCell> */}
-                        <TableCell width={"100px"}>
+                        <TableCell width={"100px"} sx={{border:0}}>
 
                         {/* <TextField placeholder={data[dialogData][v]==false? "false" :data[dialogData][v]}
                 onChange={(e)=>handleChange(e,v)} name={Object.keys(data[dialogData])[i]}/> */}
@@ -63,10 +63,10 @@ function MyDialog(props) {
             })}
                 </Box>
             <DialogActions>
-            <Typography variant="subtitle2"> click the button below to close</Typography>
+            <Typography variant="subtitle2" sx={{}}> click the button below to close </Typography>
             <Button type="Submit" onClick={handleSubmit} variant="contained">Submit</Button>
             
-            <Button onClick={()=>setDialog(!dialog)}>Close</Button>
+            <Button onClick={()=>setDialog(!dialog)} variant="outlined">Close</Button>
 
             </DialogActions>
         </DialogContent>

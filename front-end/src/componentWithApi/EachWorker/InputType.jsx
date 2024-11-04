@@ -30,8 +30,8 @@ if (typeof((data[dialogData])[v])=="boolean") {
           onChange={(e)=>handleChange(e,v)}
           label={<CamelToSpaces text ={inData} />}
         >
-          <MenuItem value={true}>yes</MenuItem>
-          <MenuItem value={false}>no</MenuItem>
+          <MenuItem value={true}>YES</MenuItem>
+          <MenuItem value={false}>NO</MenuItem>
         </Select>
       </FormControl>
       
@@ -47,6 +47,11 @@ else if(typeof((data[dialogData])[v])=="string"){
     </>
 
     )
+}
+else if(typeof((data[dialogData])[v])=="object"){
+  return(<>
+    data
+  </>)
 }
 
 

@@ -53,10 +53,10 @@ function Workers() {
     } else {
         return(
             <>
-            <Stack direction={"row"}>
+            <Stack direction={"row"} sx={{mb:2}}>
             <Typography variant="h4" width={"80%"}>Workers</Typography>
 
-            <Button variant="contained" onClick={handleDialog}>New Worker</Button>
+            <Button variant="contained" onClick={handleDialog} sx={{":hover":{color:'primary.main'}}}>New Worker</Button>
 
             
             <Dialog open={dialog}>
@@ -67,22 +67,25 @@ function Workers() {
 
             <DialogActions>
             <Button variant="outlined" onClick={handleSubmit}>Submit</Button>
-            <Button variant="contained" onClick={handleDialog}>Close</Button>
+            <Button variant="contained" onClick={handleDialog} sx={{":hover":{color:'blueviolet'}}}>Close</Button>
             </DialogActions>
 
             </Dialog>
             
             </Stack>
-            <Paper sx={{m:2}}>
+            {/* <Paper sx={{m:2}}> */}
                         
 
             <TableContainer>
                 <Table>
 
                     <TableHead>
+                    <Paper sx={{bgcolor:"rgba(1,1,1,0.1)", zIndex:"-1"}} elevation={0}>
+
                         <TableRow>
-                            <TableCell>Workers </TableCell>
+                            <TableCell >Workers </TableCell>
                         </TableRow>
+                    </Paper>
                     </TableHead>
 
                     <TableBody>
@@ -91,8 +94,8 @@ function Workers() {
                             <TableRow key={i}>
                                 <TableCell 
                                  onClick={()=>handleClick(v._id)}
-                                 sx={{":hover":{bgcolor:'#f5f5f5',cursor:'pointer'}}} key={v.id} >
-                                    <Typography>{v.name}</Typography>
+                                 sx={{":hover":{bgcolor:'primary.light',cursor:'pointer'}}} key={v.id} >
+                                    <Typography variant="h6">{v.name}</Typography>
                                 </TableCell>
                             </TableRow>                        
 
@@ -102,7 +105,7 @@ function Workers() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            </Paper>
+            {/* </Paper> */}
             </>
         )
     }

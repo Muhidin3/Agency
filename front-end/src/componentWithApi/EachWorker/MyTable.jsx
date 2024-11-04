@@ -72,7 +72,7 @@ function MyTable(prop) {
             <TableBody key={keyIndex}>
 
               {/* groups */}
-              <TableRow sx={{ cursor: "pointer", ":hover": { bgcolor: "wheat" },borderTop:'1px solid rgba(224, 224, 224, 1)' }}>
+              <TableRow sx={{ cursor: "pointer", ":hover": { bgcolor: "rgba(1,1,1,0.1)" },borderTop:'1px solid rgba(224, 224, 224, 1)' }}>
                 <TableCell onClick={() => handleToogle(keyIndex)} sx={{width:'70%'}}>
                 <Stack direction={"row"}>
 
