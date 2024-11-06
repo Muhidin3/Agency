@@ -13,11 +13,14 @@ function MyDialog(props) {
     const setDialog = props.setDialog
     // const [formData,setFormData]= useState({[dialogData]:data[dialogData]})
     const [formData,setFormData]= useState(data[dialogData])
+    // eslint-disable-next-line no-unused-vars
+    const [formFileData,setFormFileData] = useState(data[dialogData])
+
     const url = import.meta.env.VITE_HOST
       function handleChange(e,v) {
 
         setFormData((p)=>{return({...p,[v]:e.target.value})})
-        // console.log('sended data',{[dialogData]:formData})
+        console.log('sended data',{[dialogData]:formData})
 
         
       }
@@ -42,17 +45,12 @@ function MyDialog(props) {
                   <Table>
                     <TableBody>
                       <TableRow>
-                        {/* <TableCell>
-                <Typography variant="h5">{v}: </Typography> 
-                {formData[v]}
-
-                        </TableCell> */}
+                        
                         <TableCell width={"100px"} sx={{border:0}}>
-
-                        {/* <TextField placeholder={data[dialogData][v]==false? "false" :data[dialogData][v]}
-                onChange={(e)=>handleChange(e,v)} name={Object.keys(data[dialogData])[i]}/> */}
+                        
 
                         <InputType data={data} dialogData={dialogData} v={v} i={i} onChange={handleChange} formData={formData}/>
+                        
                         </TableCell>
 
                       </TableRow>

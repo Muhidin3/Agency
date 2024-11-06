@@ -39,7 +39,11 @@ function EachWorker(props) {
     <AvatarHead name={data.name} 
                 pNum={data.ContactInfo.phoneNumber} />
     <Paper elevation={0} sx={{borderRadius:'10px',bgcolor:"rgba(63, 114, 175,0.1)"}}>
+        <form encType="">
+
     <MyTable data={data} id={id}/>
+        </form>
+    
 
     </Paper>
   </>

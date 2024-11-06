@@ -31,8 +31,8 @@ function MyCollapse(props) {
                                 : </Typography>
                             </TableCell>
                             <TableCell>
-                            {data[keyValue]==null?'none':data[keyValue]==false?'false':data[keyValue]==true?'true':data[keyValue]}
-                                {/* <Typography>a</Typography> */}
+                            {data[keyValue]==null?'none':data[keyValue]==false?'false':data[keyValue]==true?'true':(data[keyValue]).slice(5)}
+
                             </TableCell>
                         </TableRow>
                     </TableBody>

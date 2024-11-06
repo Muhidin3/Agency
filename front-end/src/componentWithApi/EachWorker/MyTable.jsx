@@ -109,7 +109,10 @@ function MyTable(prop) {
                 <Dialog open={dialog}
                         PaperProps={{sx:{borderRadius:'20px',p:2}}}>
                   <DialogTitle>{dialogData}</DialogTitle>
+                    
+
                     <MyDialog diagData={dialogData} data={data} id={prop.id} dialog={dialog} setDialog={setDialog}/>  
+                    
                 </Dialog>
     </>
   )

@@ -27,7 +27,7 @@ function Check({data,keyI,keyV}) {
             }
         }
         else{
-            if (data[keyV][v]!='None') {
+            if ((data[keyV][v]).slice(5)!='None') {
                 handleChange(i)
             }
         }

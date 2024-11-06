@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "dotenv": "file:../../1 node modules for saving/dotenv-16.4.5.tgz",
     "express": "^4.21.1",
+    "express-fileupload": "^1.5.1",
     "mongoose": "^8.7.1",
     "multer": "^1.4.5-lts.1"
   }

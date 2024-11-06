@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import { FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from "@mui/material"
+import { FormControl, FormControlLabel, FormLabel, Input, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from "@mui/material"
 import { useState } from "react"
 import CamelToSpaces from "../../components/CamelToSpaces"
 function InputType(props) {
@@ -12,6 +12,9 @@ function InputType(props) {
     const handleChange = props.onChange
     const formData = props.formData
 
+    // const handleFileChange = (e)=>{
+    //   console.log(e.target.value)
+    // }
 
 
 if (typeof((data[dialogData])[v])=="boolean") {
@@ -39,6 +42,22 @@ if (typeof((data[dialogData])[v])=="boolean") {
       </>
     )
 }
+
+
+else if((data[dialogData])[v].slice(0,5)=="s3://"){
+  return(<>
+
+    
+
+    
+    <Typography variant="h5" sx={{display:"inline",mr:2}}>{Object.keys(data[dialogData])[i]}:</Typography>
+    <Input type="file" name={Object.keys(data[dialogData])[i]} onChange={(e)=>handleChange(e,v)}/>
+
+  
+    
+  </>)
+}
+
 else if(typeof((data[dialogData])[v])=="string"){
     return(<>
         <TextField label={(Object.keys(data[dialogData])[i])}
@@ -47,11 +66,6 @@ else if(typeof((data[dialogData])[v])=="string"){
     </>
 
     )
-}
-else if(typeof((data[dialogData])[v])=="object"){
-  return(<>
-    data
-  </>)
 }
 
 

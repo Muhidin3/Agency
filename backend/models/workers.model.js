@@ -12,36 +12,36 @@ const workerSchema = new mongoose.Schema({
     
     LegalDocuments:{
         cv:{
-            type:String,default:'None'
+            type:String,default:'s3://None'
         },
         passport:{
-            type:String,default:'None'
+            type:String,default:'s3://None'
         },
         id:{
-            type:String,default:'None'
+            type:String,default:'tx://None'
         }
     },
 
     contract:{
         contract:{
-            type:String,default:'None'
+            type:String,default:'s3://None'
         }
     },
 
     ContactInfo:{
         phoneNumber:{
-            type:String,default:'None'
+            type:String,default:'tx://None'
         },
         Password:{
-            type:String,default:'None'
+            type:String,default:'tx://None'
         },
         TempId:{
-            type:String,default:'None'
+            type:String,default:'tx://None'
         }
     },
     LabourId:{
         LabourId:{
-            type:String,default:'None'
+            type:String,default:'tx://None'
         }
     },
     MedicalInfo:{
@@ -49,7 +49,7 @@ const workerSchema = new mongoose.Schema({
             type:Boolean,default:false
         },
         appointment:{
-            type:String,default:'None'
+            type:String,default:'s3://None'
         },
         approved:{
             type:Boolean,default:false
@@ -65,16 +65,19 @@ const workerSchema = new mongoose.Schema({
             type:Boolean,default:false
         },
         Reciept:{
-            type:String,default:"None"
+            type:String,default:"s3://None"
         },
         EasyEnjazPaper:{
-            type:String,default:"None"
+            type:String,default:"s3://None"
+        },
+        list:{
+            type:String,default:"s3://None"
         },
         Approved:{
             type:Boolean,default:false
         },
         Visa:{
-            type:String,default:"None"
+            type:String,default:"s3://None"
         }
     },
     Insurance:{
@@ -85,7 +88,7 @@ const workerSchema = new mongoose.Schema({
             type:Boolean,default:false
         },
         InsuranceCertificate:{
-            type:String,default:"None"
+            type:String,default:"s3://None"
         }
     },
     Lmis:{
@@ -99,7 +102,7 @@ const workerSchema = new mongoose.Schema({
             type:Boolean,default:false
         },
         Documents:{
-            type:String,default:"None"
+            type:String,default:"s3://None"
         },
         Paid:{
             type:Boolean,default:false
@@ -108,7 +111,7 @@ const workerSchema = new mongoose.Schema({
             type:Boolean,default:false
         },
         QrCode:{
-            type:String,default:"None"
+            type:String,default:"s3://None"
         },
     },
     Ticket:{
@@ -116,10 +119,10 @@ const workerSchema = new mongoose.Schema({
             type:Boolean,default:false
         },
         BookingUploaded:{
-            type:String,default:"None"
+            type:String,default:"s3://None"
         },
         FlightDateAndTime:{
-            type:String,default:"None"
+            type:String,default:"tx://None"
         }
     },
     Departed:{

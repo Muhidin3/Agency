@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url'
 
 import { S3Client,PutObjectCommand } from '@aws-sdk/client-s3'
 import multer from 'multer'
+import fileUpload from 'express-fileupload'
 
 
 
@@ -20,14 +21,15 @@ connectDB()
 const app = express()
 
 app.use(express.json())      // allow to pass json to body
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({limit:"10mb",extended:true}))
+app.use(bodyParser.json({limit:"10mb"}))
 app.use(cors())
 
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const __dirname = dirname(__filename);
 
-app.use(express.static(path.join(__dirname,'../front-end/dist')))
-
+app.use(express.static(path.join(__dirname,'../front-end/dist')));
+app.use(fileUpload());
 
 
 
@@ -36,7 +38,7 @@ app.use(express.static(path.join(__dirname,'../front-end/dist')))
 
 
 const storage = multer.memoryStorage()
-const upload = multer({storage:storage})
+const upload = multer({storage:storage,limits:{fileSize:10*1024*1024}})
 
 const BucketName ='my-first-aws-muhidin'
 const BucketRegion ='eu-north-1'
@@ -57,24 +59,72 @@ app.get('/try',async(req,res)=>{
     res.send('sum')
 });
 
+// const cpUpload = upload.fields()
+app.post('/tryy',async (req,res)=>{
 
-app.post('/try',upload.single('file'),async (req,res)=>{
-    console.log("started")
-    const params = {
-        Bucket:BucketName,
-        Key:req.file.originalname,
-        Body:req.file.buffer,
-        ContentType: req.file.mimetype
-    }
-    const command = new PutObjectCommand(params)
+    // const upload = multer().single('file')
 
-    await s3.send(command)
+    upload.single('file')(req,res,function (err){
+        
+        if (err instanceof multer.MulterError) {
+            console.log('multererror')
+        }else if(err){
+            console.log('my error')
+        }
+
+        console.log("started")
+        console.log(req.file)
+        console.log(req.body)
+    })
+
+
+    try {
+        // const params = {
+        //     Bucket:BucketName,
+        //     Key:req.file.originalname,
+        //     Body:req.file.buffer,
+        //     ContentType: req.file.mimetype
+        // }
+        // const command = new PutObjectCommand(params)
     
-    console.log('ended')
-    res.send({message:'sent'})
+        // await s3.send(command)
+        
+        console.log('ended')
+        res.json({message:'sent'})
+
+    } 
+    catch (error) {
+        console.log('error',error.message)
+        res.send('error sending the file')
+    }
 
 });
+app.post('/try',(req,res)=>{
+    const textData= req.body
+    // if (req.files!= null) {
+        // const reqbody = {LegalDocuments:{cv:"abcd",id:"123",passport:"mnmnmnn"}}
+        // const fileKeys = Object.keys(files)
+        
+        // console.log('sent',fileKeys)
+    // }
+    // const files = req.files
+    console.log('body::::::',req.body)
+    console.log('files::::::',req.files)
+    // const textkeys = Object.keys(reqbody) 
 
+    // textkeys.map((v,i)=>{
+    //     console.log(reqbody[v])
+    // })
+
+    // console.log("bodytext",textData)
+
+
+    // console.log('files',files)
+
+
+    // console.log('sent',files[fileKeys])
+    res.send('end')
+})
 
 
 
@@ -127,11 +177,17 @@ app.post('/api/workers',async (req,res) => {
 
 app.patch('/api/workers/:id',async (req,res) => {
     const worker = req.body 
-    const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
+    const files = req.files
     console.log(worker)
+    console.log(files)
+
+    // const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
+
     res.send('updated succsfully')
     // res.send('updated succsfully \n'+ await Worker.findById(req.params.id))
 })
+
+
 app.get('/api/workers/:id', async (req,res) => {
     const data = await Worker.findById(req.params.id)
     res.send(data)
