@@ -11,6 +11,7 @@ function InputType(props) {
     const inData = (Object.keys(data[dialogData])[i])
     const handleChange = props.onChange
     const formData = props.formData
+    const formik = props.formik
 
     // const handleFileChange = (e)=>{
     //   console.log(e.target.value)
@@ -26,11 +27,11 @@ if (typeof((data[dialogData])[v])=="boolean") {
         {/* {inData} */}
         <CamelToSpaces text ={inData} />
         </InputLabel>
-        <Select
+        <Select name={Object.keys(data[dialogData])[i]} 
           labelId="dropdown-label"
           id="dropdown"
-          value={formData[v]}
-          onChange={(e)=>handleChange(e,v)}
+          value={formik.values[v]}
+          onChange={formik.handleChange}
           label={<CamelToSpaces text ={inData} />}
         >
           <MenuItem value={true}>YES</MenuItem>
@@ -46,12 +47,9 @@ if (typeof((data[dialogData])[v])=="boolean") {
 
 else if((data[dialogData])[v].slice(0,5)=="s3://"){
   return(<>
-
-    
-
-    
     <Typography variant="h5" sx={{display:"inline",mr:2}}>{Object.keys(data[dialogData])[i]}:</Typography>
-    <Input type="file" name={Object.keys(data[dialogData])[i]} onChange={(e)=>handleChange(e,v)}/>
+    <Input type="file" name={Object.keys(data[dialogData])[i]} 
+            onChange={e=>formik.setFieldValue(Object.keys(data[dialogData])[i], e.target.files[0])}/>
 
   
     
@@ -59,20 +57,17 @@ else if((data[dialogData])[v].slice(0,5)=="s3://"){
 }
 
 else if(typeof((data[dialogData])[v])=="string"){
+  // console.log(formik.values)
     return(<>
-        <TextField label={(Object.keys(data[dialogData])[i])}
-            onChange={(e)=>handleChange(e,v)}  name={Object.keys(data[dialogData])[i]} fullWidth/>
-
+        {/* <TextField label={(Object.keys(data[dialogData])[i])} onChange={(e)=>handleChange(e,v)}  name={Object.keys(data[dialogData])[i]} fullWidth/> */}
+        <TextField label={(Object.keys(data[dialogData])[i])} 
+                   name= {Object.keys(data[dialogData])[i]} fullWidth 
+                   onChange={formik.handleChange}  
+                   />
     </>
-
+    
     )
 }
-
-
-
-//1000295750263
-//placeholder={data[dialogData][v]==false? "false" :data[dialogData][v]}
-
 
 
 }

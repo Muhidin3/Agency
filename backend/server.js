@@ -62,8 +62,6 @@ app.get('/try',async(req,res)=>{
 // const cpUpload = upload.fields()
 app.post('/tryy',async (req,res)=>{
 
-    // const upload = multer().single('file')
-
     upload.single('file')(req,res,function (err){
         
         if (err instanceof multer.MulterError) {
@@ -79,15 +77,15 @@ app.post('/tryy',async (req,res)=>{
 
 
     try {
-        // const params = {
-        //     Bucket:BucketName,
-        //     Key:req.file.originalname,
-        //     Body:req.file.buffer,
-        //     ContentType: req.file.mimetype
-        // }
-        // const command = new PutObjectCommand(params)
+        const params = {
+            Bucket:BucketName,
+            Key:req.file.originalname,
+            Body:req.file.buffer,
+            ContentType: req.file.mimetype
+        }
+        const command = new PutObjectCommand(params)
     
-        // await s3.send(command)
+        await s3.send(command)
         
         console.log('ended')
         res.json({message:'sent'})
@@ -176,13 +174,57 @@ app.post('/api/workers',async (req,res) => {
 
 
 app.patch('/api/workers/:id',async (req,res) => {
-    const worker = req.body 
+    const data = req.body
+    const {key ,...workerData} = data 
     const files = req.files
+    // console.log("body:::::",workerData)
+    // console.log("files::::",files)
+    let error = false
+    try {
+        Object.keys(workerData).map((key,index)=>{
+            workerData[key]= "tx://"+workerData[key]
+        })
+        Object.keys(files).map((key,index)=>{
+            workerData[key]=('s3://'+files[key].md5)
+        })
+    } catch (error) {
+        console.log('error from data',error.message)
+        error = true
+    }
+    const worker = {[key]:workerData}
+
+    error=true
+    if(!error){
+        const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
+
+        Object.keys(files).map(async (key,index)=>{
+            try {
+                const params = {
+                    Bucket:BucketName,
+                    Key:files[key].md5,
+                    Body:files[key].data,
+                    ContentType: files[key].mimetype
+                }
+    
+                const command = new PutObjectCommand(params)
+            
+                await s3.send(command)
+                console.log("uploaded to s3 successfully")
+                
+            } catch (error) {
+                console.log("error while uploading",error.message)
+            }
+        })
+
+
+
+
+
+
+    }
+
+
     console.log(worker)
-    console.log(files)
-
-    // const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
-
     res.send('updated succsfully')
     // res.send('updated succsfully \n'+ await Worker.findById(req.params.id))
 })
