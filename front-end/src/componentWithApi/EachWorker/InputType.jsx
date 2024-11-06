@@ -9,8 +9,8 @@ function InputType(props) {
     const v =props.v
     const i = props.i
     const inData = (Object.keys(data[dialogData])[i])
-    const handleChange = props.onChange
-    const formData = props.formData
+    // const handleChange = props.onChange
+    // const formData = props.formData
     const formik = props.formik
 
     // const handleFileChange = (e)=>{

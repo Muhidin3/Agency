@@ -18,6 +18,7 @@ function EachWorker(props) {
     useEffect(()=>{
         async function fetchData(params) {
             const responce = await axios.get(url+'api/workers/'+id)
+            console.log(url+'api/workers/'+id)
             setinData(responce.data)
             setLoading(false)
             

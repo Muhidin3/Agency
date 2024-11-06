@@ -13,42 +13,31 @@ import axios from "axios";
 
 function Dashboard() {
     const navigate = useNavigate()
-    const [arabs,setArabs]= useState([])
-    const [countries,setCountries]= useState([])
-    const [workers,setWorkers]= useState([])
+    const [indata,setinData] = useState()
     const url = import.meta.env.VITE_HOST
+    const [loading,setLoading] = useState(true)
+    const [arabs,setArabs] = useState()
 
     useEffect(()=>{
       async function fetchdata() {
-        const resarabs= await axios.get(url+'api/arabs')
-        setArabs(resarabs)
-        console.log(arabs.data)
+        const res = await axios.get(url+'api/dash')
+        // console.log(res.data)
+        setinData(res.data)
+        setArabs()
+        setLoading(false)
       }
       fetchdata()
-    },[])
-    const data = {
-      Countries:{
-        1:"Country1",
-        2:"Country2",
-        3:"Country3"
-      },
-      Arabs:{
-        1:"Arab1",
-        2:"Arab2",
-        3:"Arab3"
-      },Workers:{
-        1:"Worker1",
-        2:"Worker2",
-        3:"Worker3"
-      }
+    },[url])
+   
+
+    
+
+    if (loading) {
+      return(<h1>loading</h1>)
     }
 
-    const keys = Object.keys(data)
   return (
     <>
-    {/* <Button size='large' variant='contained' onClick={()=>navigate('/arabs')} sx={{m:2}} fullWidth>Arabs</Button> */}
-    {/* <Button size='large' variant='contained' onClick={()=>navigate('/recentWorkers')} sx={{m:2}} fullWidth>Recent Workers</Button> */}
-    
       <Grid2 container spacing={3}>
             {/* search */}
           <Grid2 size={{xs:12}} sx={{justifyItems:"center",mb:15,mt:10}}>
@@ -74,7 +63,7 @@ function Dashboard() {
               <motion.div initial={{x:-100}} animate={{x:0}} style={{width:"100%"}}>
                     <Paper elevation={10} sx={{p:3,width:"100%",bgcolor:"#FAFAFA",borderRadius:"20px"}}>
                         <Typography variant="h1" textAlign={"center"} color="text.primary">
-                        <CountUp start={281/1.2} end={281} duration={3} separator="," />
+                        <CountUp start={indata.numwork/2} end={indata.numwork} duration={3} separator="," />
                         </Typography>
                         <Typography textAlign={"center"} variant="h4" color="text.primary">Workers</Typography>
                     </Paper>
@@ -86,7 +75,7 @@ function Dashboard() {
 
                     <Paper elevation={10} sx={{p:3,width:"100%",bgcolor:"#FAFAFA",borderRadius:"20px"}}>
                         <Typography variant="h1" textAlign={"center"} color="text.primary">
-                        <CountUp start={21/1.2} end={21} duration={3} separator="," />
+                        <CountUp start={indata.numarab/2} end={indata.numarab} duration={3} separator="," />
                         </Typography>
                         <Typography textAlign={"center"} variant="h4" color="text.primary">Arabs</Typography>
                     </Paper>                  
@@ -95,59 +84,88 @@ function Dashboard() {
               </Grid2>
           </Grid2>
 
-          {keys.map((v,i)=>{
-            if(v=='Workers'){
-              return(<Grid2 key={i} size={{xs:12,md:12}}>
-                <motion.div initial={{y:+100}} animate={{y:0}} style={{width:"100%"}}>
+          <Grid2 size={{xs:12,md:12}} container>
+                
+                <Grid2 size={{xs:12,md:6}}>
+                      <motion.div initial={{y:+100}} animate={{y:0}} style={{width:"100%"}}>
+                    
+                    <Paper elevation={24} sx={{p:3,bgcolor:"primary.light",borderRadius:'20px'}} >
+                        <Typography variant="h4" textAlign={"center"} onClick={()=>navigate('/country')}>countries</Typography>
+                        {indata.samcountry.map((v,i)=>{
+                          return(
+                          <Box sx={{pt:1}} key={i}>
+                          <Paper elevation={1} sx={{height:'50px',
+                                                              p:1,mt:1,
+                                                              bgcolor:"#F0F2F5", 
+                                                              color:"#1B263B",
+                                                              ':hover':{cursor:"pointer"},
+                                                              borderRadius:'20px'}}
+                                                              onClick={()=>navigate('/arabsbycountry/'+v._id)}>
+                              <Typography variant="h6" sx={{pt:1,pl:1}}>{v.name}</Typography>
+                            </Paper>
+                          </Box>
+                            
+                            )
+                        })}
+                        <Typography sx={{mt:3,ml:1,cursor:'pointer'}} onClick={()=>navigate('/country')}>See more</Typography>
+                      </Paper>
+                      </motion.div>
+                </Grid2>            
+                <Grid2 size={{xs:12,md:6}}>
+                      <motion.div initial={{y:+100}} animate={{y:0}} style={{width:"100%"}}>
+                    
+                    <Paper elevation={24} sx={{p:3,bgcolor:"primary.light",borderRadius:'20px'}}>
+                        <Typography variant="h4" textAlign={"center"} onClick={()=>navigate('/arabs')}>Arabs</Typography>
+                        {indata.samarab.map((v,i)=>{
+                          return(
+                          <Box sx={{pt:1}} key={i}>
+                          <Paper elevation={0} sx={{height:'50px',
+                                                              p:1,mt:1,
+                                                              bgcolor:"#F0F2F5", 
+                                                              color:"#1B263B",
+                                                              ':hover':{cursor:"pointer"},
+                                                              borderRadius:'20px'}}
+                                                              onClick={()=>navigate('/workers/'+v._id)}>
+                              <Typography variant="h6" sx={{pt:1,pl:1}}>{v.name}</Typography>
+                            </Paper>
+                          </Box>
+                            
+                            )
+                        })}
+                        <Typography sx={{mt:3,ml:1,cursor:'pointer'}} onClick={()=>navigate('/arabs')}>See more</Typography>
 
+                      </Paper>
+                      </motion.div>
+                </Grid2>            
+                <Grid2 size={{xs:12}}>
+                      <motion.div initial={{y:+100}} animate={{y:0}} style={{width:"100%"}}>
+                    
+                    <Paper elevation={24} sx={{p:3,bgcolor:"primary.light",borderRadius:'20px'}}>
+                        <Typography variant="h4" textAlign={"center"} onClick={()=>navigate('/recentworkers')}>Workers</Typography>
 
-                <Paper elevation={24} sx={{p:3,bgcolor:"primary.light",borderRadius:'20px'}}>
-                      <Typography variant="h4" textAlign={"center"} color="text.primary">{v}</Typography>
-                      <Box sx={{pt:1}}>
-                      {Object.keys(data[v]).map((vv,ii)=>{
-                        return(
-                        <Paper key={ii} elevation={0} sx={{height:'50px',
-                                                          p:1,mt:1,
-                                                          bgcolor:"#F0F2F5", 
-                                                          color:"#1B263B",
-                                                          ':hover':{cursor:"pointer"},
-                                                          borderRadius:'20px'}}>
-                          <Typography >{data[v][vv]}</Typography>
-                        </Paper>
-                        )
-                      })}
-                      </Box>
-                  </Paper>
+                        {indata.samworker.map((v,i)=>{
+                          return(
+                          <Box sx={{pt:1}} key={i}>
+                          <Paper elevation={0} sx={{height:'50px',
+                                                              p:1,mt:1,
+                                                              bgcolor:"#F0F2F5", 
+                                                              color:"#1B263B",
+                                                              ':hover':{cursor:"pointer"},
+                                                              borderRadius:'20px'}}
+                                                              onClick={()=>navigate('/eachWorker/'+ v._id)}>
+                              <Typography variant="h6" sx={{pt:1,pl:1}}>{v.name}</Typography>
+                            </Paper>
+                          </Box>
+                            
+                            )
+                        })}
+                        <Typography sx={{mt:3,ml:1,cursor:'pointer'}} onClick={()=>navigate('/recentworkers')}>See more</Typography>
 
-                </motion.div>
-                </Grid2>)
-            }
-            return(
-              <Grid2 key={i} size={{xs:12,md:6}}>
-              <motion.div initial={{y:+100}} animate={{y:0}} style={{width:"100%"}}>
+                      </Paper>
+                      </motion.div>
+                </Grid2>            
 
-                <Paper elevation={24} sx={{p:3,bgcolor:"primary.light",borderRadius:'20px'}}>
-                      <Typography variant="h4" textAlign={"center"} >{v}</Typography>
-                      <Box sx={{pt:1}}>
-                      {Object.keys(data[v]).map((vv,ii)=>{
-                        return(
-                        <Paper key={ii} elevation={0} sx={{height:'50px',
-                                                          p:1,mt:1,
-                                                          bgcolor:"#F0F2F5", 
-                                                          color:"#1B263B",
-                                                          ':hover':{cursor:"pointer"},
-                                                          borderRadius:'20px'}}>
-                          <Typography >{data[v][vv]}</Typography>
-                        </Paper>
-                        )
-                      })}
-                      </Box>
-                  </Paper>
-                  </motion.div>
-
-                </Grid2>
-            )
-          })}  
+          </Grid2> 
           
       </Grid2>
     </>

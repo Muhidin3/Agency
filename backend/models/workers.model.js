@@ -9,7 +9,10 @@ const workerSchema = new mongoose.Schema({
         type:Schema.Types.ObjectId,
         ref:'arabs'
     },
-    
+    country:{
+        type:Schema.Types.ObjectId,
+        ref:'country'
+    },    
     LegalDocuments:{
         cv:{
             type:String,default:'s3://None'

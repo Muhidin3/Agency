@@ -16,6 +16,7 @@ function MyCollapse(props) {
   return (
     <>
         {a.map((keyValue,keyIndex)=>{
+
             
             return(
                 <Collapse key={keyIndex}
@@ -24,7 +25,7 @@ function MyCollapse(props) {
                 <Table size="small">
                     <TableBody>
                         <TableRow>
-                            <TableCell sx={{width:"100%"}}>
+                            <TableCell>
                                 <Typography>
                                 <CamelToSpaces text={keyValue}/>
                                 {/* {keyValue} */}
@@ -32,7 +33,6 @@ function MyCollapse(props) {
                             </TableCell>
                             <TableCell>
                             {data[keyValue]==null?'none':data[keyValue]==false?'false':data[keyValue]==true?'true':(data[keyValue]).slice(5)}
-
                             </TableCell>
                         </TableRow>
                     </TableBody>

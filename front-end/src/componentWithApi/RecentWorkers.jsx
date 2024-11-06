@@ -20,7 +20,7 @@ function RecentWorkers() {
             const res = await axios.get(url+'api/workers')
             // .then(async (res)=> await  res.json())
             setData(res.data)
-            console.log(res.data)
+            // console.log(res.data)
         }
         fetchData()
         setIsLoading(false)
@@ -39,15 +39,17 @@ function RecentWorkers() {
         return(
             <>
             <Typography variant="h4">Recent Workers</Typography>
-            <Paper sx={{m:2}}>
+            {/* <Paper sx={{m:2}}> */}
                         
 
-            <TableContainer>
-                <Table>
+            <TableContainer sx={{borderRadius:'20px 20px 0 0 '}}>
+                <Table >
 
-                    <TableHead>
+                    <TableHead sx={{backdropFilter:'invert(10%)'}}>
                         <TableRow>
-                            <TableCell>Workers </TableCell>
+                            <TableCell> 
+                           <Typography variant="h5">Workers</Typography> 
+                            </TableCell>
                         </TableRow>
                     </TableHead>
 
@@ -68,7 +70,7 @@ function RecentWorkers() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            </Paper>
+            {/* </Paper> */}
             </>
         )
     }

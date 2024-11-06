@@ -1,9 +1,12 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 
 const arabsSchema = new mongoose.Schema({
     name:String,
-    id:Number
+    country:{
+        type:Schema.Types.ObjectId,
+        ref:'country'
+    }
 },{
     timestamps:true
 })

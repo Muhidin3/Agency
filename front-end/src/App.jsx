@@ -12,6 +12,8 @@ import Arabs from './componentWithApi/Arabs';
 import Workers from './components/Workers';
 import SideNav from './components/SideNav';
 import Footer from './components/Footer';
+import Country from './componentWithApi/Country';
+import Arabsbycountry from './componentWithApi/Arabsbycountry';
 
 
 
@@ -23,6 +25,8 @@ function App() {
     <Container sx={{padding:{xs:1,sm:"30px",md:10,lg:10,xl:0}}} maxWidth={'xl'} >
     <Routes>
       <Route path='/' element={<Dashboard/>}></Route>
+      <Route path='/arabsbycountry/:id' element={<Arabsbycountry/>}/>
+      <Route path='/country' element={<Country/>}/>
       <Route path='/recentWorkers' element={<RecentWorkers/>}></Route>
       <Route path='/eachWorker/:id' element={<EachWorker />}></Route>
       <Route path='/try' element={<Try />}></Route>

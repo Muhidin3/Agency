@@ -16,8 +16,10 @@ function AvatarHead(props) {
         </Avatar>
 
         <Box sx={{pl:4 , width:"1000px"}}>
-        <Typography variant='h3'> {props.name.toLocaleUpperCase()} </Typography>
-        <Typography sx={{ml:3}}>PhoneNumber: {props.pNum}</Typography>
+        <Typography variant='h4'> {props.name.toLocaleUpperCase()} </Typography>
+        <Typography sx={{ml:3}}>Arab: {props.pNum.slice(5)}</Typography>
+        <Typography sx={{ml:3}}>Country: {props.pNum.slice(5)}</Typography>
+        <Typography sx={{ml:3}}>PhoneNumber: {props.pNum.slice(5)}</Typography>
         <Typography></Typography>
 
         </Box>

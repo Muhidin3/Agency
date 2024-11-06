@@ -12,6 +12,8 @@ import { fileURLToPath } from 'url'
 import { S3Client,PutObjectCommand } from '@aws-sdk/client-s3'
 import multer from 'multer'
 import fileUpload from 'express-fileupload'
+import Country from './models/country.model.js'
+import Dashboard from './models/dashboard.model.js'
 
 
 
@@ -39,11 +41,11 @@ app.use(fileUpload());
 
 const storage = multer.memoryStorage()
 const upload = multer({storage:storage,limits:{fileSize:10*1024*1024}})
+const BucketName =process.env.BUCKET_NAME
+const BucketRegion =process.env.BUCKET_REGION
+const AccessKey = process.env.ACCESS_KEY
+const SecretAccessKey = process.env.SECRET_ACCESS_KEY
 
-const BucketName ='my-first-aws-muhidin'
-const BucketRegion ='eu-north-1'
-const AccessKey = 'AKIAWQUOZ3THYGFEOBAX'
-const SecretAccessKey = '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'
 
 const s3 = new S3Client({
     credentials:{
@@ -136,13 +138,29 @@ app.post('/try',(req,res)=>{
 
 
 
+app.get('/api/country',async (req,res)=>{
+
+    try{
+        res.send(await Country.find())
+    }
+    catch(err){
+        res.json({message:'An error occured try refreshing the page',error:err})
+    }
+})
+
+app.post('/api/country',async (req,res)=>{
+    const newCountry = new Country(req.body)
+    await newCountry.save()
+    res.send(`${newCountry.name} saved successfuly`)
+})
 
 
 
-
-
-
-
+app.get('/api/arabsbycountry/:id',async (req,res)=>{
+    const data = await Arab.find({country:req.params.id})
+    
+    res.send(data)
+})
 
 app.get('/api/arabs', async (req,res)=>{
     const data = await Arab.find()
@@ -216,11 +234,6 @@ app.patch('/api/workers/:id',async (req,res) => {
             }
         })
 
-
-
-
-
-
     }
 
 
@@ -239,9 +252,33 @@ app.get('/api/workers/:id', async (req,res) => {
 
 app.get('/api/arabworkers/:id', async (req,res) => {
     const data = await Worker.find({arab:req.params.id})
-    // Worker.find()
     res.send(data)
 });
+
+
+
+app.get('/api/dash',async (req,res)=>{
+    const data = await Dashboard.find()
+    const numwork = (await (Worker.find())).length
+    const numarab = (await (Arab.find())).length
+    const samworker = await Worker.find().sort({createdAt:-1}).limit(3)
+    const samarab = await Arab.find().sort({createdAt:-1}).limit(3)
+    const samcountry = await Country.find().sort({createdAt:-1}).limit(3)
+    const sendedFile = {
+        numwork:numwork,
+        numarab:numarab,
+        samcountry:samcountry,
+        samarab:samarab,
+        samworker:samworker
+    }
+    res.send(sendedFile)
+})
+
+
+app.patch('/api/dash',async (req,res)=>{
+    await Dashboard.findByIdAndUpdate('672b59e85b195015f24febf2',req.body)
+    res.send("saved" + await Dashboard.find())
+})
 
 app.get('*',(req,res)=>{
     const page = path.join(__dirname, '../front-end/dist/index.html')
@@ -250,5 +287,5 @@ app.get('*',(req,res)=>{
     
     
     
-let Port = 4000
+let Port = 3000
 app.listen(process.env.Port || Port,()=>console.log(`web is running on port ${Port}`))
