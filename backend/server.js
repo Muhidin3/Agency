@@ -30,137 +30,9 @@ app.use(cors())
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename);
 
-app.use(express.static(path.join(__dirname,'../front-end/dist')));
-app.use(fileUpload());
+app.use(express.static(path.join(__dirname,'../front-end/dist')))
 
 
-
-
-
-
-
-const storage = multer.memoryStorage()
-const upload = multer({storage:storage,limits:{fileSize:10*1024*1024}})
-const BucketName =process.env.BUCKET_NAME
-const BucketRegion =process.env.BUCKET_REGION
-const AccessKey = process.env.ACCESS_KEY
-const SecretAccessKey = process.env.SECRET_ACCESS_KEY
-
-
-const s3 = new S3Client({
-    credentials:{
-        accessKeyId:AccessKey,
-        secretAccessKey:SecretAccessKey,
-    },
-     region:BucketRegion
-})
-
-const client = new S3Client({region:BucketRegion})
-
-app.get('/try',async(req,res)=>{
-    res.send('sum')
-});
-
-// const cpUpload = upload.fields()
-app.post('/tryy',async (req,res)=>{
-
-    upload.single('file')(req,res,function (err){
-        
-        if (err instanceof multer.MulterError) {
-            console.log('multererror')
-        }else if(err){
-            console.log('my error')
-        }
-
-        console.log("started")
-        console.log(req.file)
-        console.log(req.body)
-    })
-
-
-    try {
-        const params = {
-            Bucket:BucketName,
-            Key:req.file.originalname,
-            Body:req.file.buffer,
-            ContentType: req.file.mimetype
-        }
-        const command = new PutObjectCommand(params)
-    
-        await s3.send(command)
-        
-        console.log('ended')
-        res.json({message:'sent'})
-
-    } 
-    catch (error) {
-        console.log('error',error.message)
-        res.send('error sending the file')
-    }
-
-});
-app.post('/try',(req,res)=>{
-    const textData= req.body
-    // if (req.files!= null) {
-        // const reqbody = {LegalDocuments:{cv:"abcd",id:"123",passport:"mnmnmnn"}}
-        // const fileKeys = Object.keys(files)
-        
-        // console.log('sent',fileKeys)
-    // }
-    // const files = req.files
-    console.log('body::::::',req.body)
-    console.log('files::::::',req.files)
-    // const textkeys = Object.keys(reqbody) 
-
-    // textkeys.map((v,i)=>{
-    //     console.log(reqbody[v])
-    // })
-
-    // console.log("bodytext",textData)
-
-
-    // console.log('files',files)
-
-
-    // console.log('sent',files[fileKeys])
-    res.send('end')
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.get('/api/country',async (req,res)=>{
-
-    try{
-        res.send(await Country.find())
-    }
-    catch(err){
-        res.json({message:'An error occured try refreshing the page',error:err})
-    }
-})
-
-app.post('/api/country',async (req,res)=>{
-    const newCountry = new Country(req.body)
-    await newCountry.save()
-    res.send(`${newCountry.name} saved successfuly`)
-})
-
-
-
-app.get('/api/arabsbycountry/:id',async (req,res)=>{
-    const data = await Arab.find({country:req.params.id})
-    
-    res.send(data)
-})
 
 app.get('/api/arabs', async (req,res)=>{
     const data = await Arab.find()
@@ -287,5 +159,5 @@ app.get('*',(req,res)=>{
     
     
     
-let Port = 3000
+let Port = 4000
 app.listen(process.env.Port || Port,()=>console.log(`web is running on port ${Port}`))
