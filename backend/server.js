@@ -34,8 +34,6 @@ app.use(express.static(path.join(__dirname,'../front-end/dist')))
 
 
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -165,7 +163,6 @@ app.get('/api/arabsbycountry/:id',async (req,res)=>{
     res.send(data)
 })
 
->>>>>>> my-temp-branch
 app.get('/api/arabs', async (req,res)=>{
     const data = await Arab.find()
     res.send(data)
