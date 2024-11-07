@@ -41,7 +41,7 @@ CircularProgressWithLabel.propTypes = {
 
 
 function AvatarHead(props) {
-  const [loading,setLoading] = useState(0)
+  const [loading,setLoading] = useState(50)
 
 
   

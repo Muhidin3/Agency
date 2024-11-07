@@ -11,8 +11,34 @@ function MyCollapse(props) {
     for(let key in data){
         a.push(key)
     }
-    
 
+
+    function ShowFile(p) {
+        if (p!=null && p!=undefined) {
+            // console.log(p.text)
+
+            if (data[p.text]!=false && data[p.text]!=true ) {
+                
+                if((data[p.text]).slice(0,5)=='s3://'){
+                    // console.log(data[p.text])
+                    return(<h4>see the file</h4>)
+                }else{
+                    return(<p>{(data[p.text]).slice(5)}</p>)
+                }
+
+            }else{
+                return(<p>{data[p.text]==false?
+                    '---':data[p.text]==true?
+                    'Yes':(data[p.text]).slice(5)
+                }</p>)
+            } 
+
+
+        }else{
+            return(<p>undefined</p>)
+        }
+    }
+    ShowFile()
   return (
     <>
         {a.map((keyValue,keyIndex)=>{
@@ -31,8 +57,9 @@ function MyCollapse(props) {
                                 {/* {keyValue} */}
                                 : </Typography>
                             </TableCell>
-                            <TableCell>
-                            {data[keyValue]==null?'none':data[keyValue]==false?'false':data[keyValue]==true?'true':(data[keyValue]).slice(5)}
+                            <TableCell> 
+                            <ShowFile text ={keyValue}/>
+                            {/* {data[keyValue]==false?'-':data[keyValue]==true?'Yes':(data[keyValue]).slice(5)} */}
                             </TableCell>
                         </TableRow>
                     </TableBody>
