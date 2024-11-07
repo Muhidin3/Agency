@@ -211,10 +211,8 @@ app.patch('/api/workers/:id',async (req,res) => {
     }
     const worker = {[key]:workerData}
 
-    error=true
     if(!error){
-        const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
-
+        
         Object.keys(files).map(async (key,index)=>{
             try {
                 const params = {
@@ -225,8 +223,8 @@ app.patch('/api/workers/:id',async (req,res) => {
                 }
     
                 const command = new PutObjectCommand(params)
-            
                 await s3.send(command)
+                const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
                 console.log("uploaded to s3 successfully")
                 
             } catch (error) {
@@ -237,7 +235,7 @@ app.patch('/api/workers/:id',async (req,res) => {
     }
 
 
-    console.log(worker)
+    // console.log(worker)
     res.send('updated succsfully')
     // res.send('updated succsfully \n'+ await Worker.findById(req.params.id))
 })
