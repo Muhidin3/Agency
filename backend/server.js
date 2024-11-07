@@ -41,6 +41,8 @@ app.use(fileUpload());
 
 const storage = multer.memoryStorage()
 const upload = multer({storage:storage,limits:{fileSize:10*1024*1024}})
+
+
 const BucketName =process.env.BUCKET_NAME
 const BucketRegion =process.env.BUCKET_REGION
 const AccessKey = process.env.ACCESS_KEY
