@@ -37,11 +37,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename);
 
 // app.use(express.static(path.join(__dirname,'./dist')))
-app.use('/assets',express.static(path.join(__dirname,'dist','index.html')))
-
-
-
-
+app.use(express.static(path.join(__dirname,'dist')))
 
 
 
@@ -320,11 +316,11 @@ app.patch('/api/dash',async (req,res)=>{
 })
 
 app.get('*',(req,res)=>{
-    const page = path.join(__dirname, 'dist','index.html')
+    const page = path.join(__dirname,'dist','index.html')
     res.sendFile(page)
 })
     
     
     
-let Port = 300
+let Port = 3000
 app.listen(process.env.Port || Port,()=>console.log(`web is running on port ${Port}`))
