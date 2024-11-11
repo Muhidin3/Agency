@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import { Typography,DialogContent, Box, Input, TableContainer, Table, TableRow, TableCell, TableBody, Button, TextField, DialogActions } from "@mui/material"
@@ -5,6 +6,7 @@ import { useState } from "react"
 import axios from 'axios'
 import InputType from "./InputType";
 import { useFormik } from "formik";
+import MyLoading from "./MyLoading";
 
 
 function MyDialog(props) {
@@ -13,26 +15,42 @@ function MyDialog(props) {
     const dialog = props.dialog
     const setDialog = props.setDialog
     const [formData,setFormData]= useState(data[dialogData])
-    // eslint-disable-next-line no-unused-vars
     const [formFileData,setFormFileData] = useState(data[dialogData])
     const url = import.meta.env.VITE_HOST
+    const [loading,setLoading] = useState(false)
 
     const formik = useFormik({
       initialValues:data[dialogData],
-      onSubmit:async (values)=>{
-        const fd =new FormData()
-        fd.append('key',dialogData)
-        Object.keys(values).map((v)=>{
-          console.log(v,values.cv)
-          fd.append([v],values[v])
-          
-        })
-        // eslint-disable-next-line no-unused-vars
-        const responce = await axios.patch(url+"api/workers/"+props.id,fd)
 
-        // console.log('formdata',formdata)
-        // console.log('clg submitted \n ' ,{[dialogData]:formData})  
-        console.log('submitted')
+      onSubmit:async (values)=>{
+        setLoading(true)
+        const fd = new FormData();
+
+        fd.append('key',dialogData);
+
+        Object.keys(values).forEach((v)=>{
+          // console.log([v],values[v])
+          fd.append(v,values[v]);
+        });
+
+        for (let [key, value] of fd.entries()) {
+          // console.log(key, value);
+        }
+
+        try {
+          const responce = await axios.patch(`${url}api/workers/${props.id}`,fd,{
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          
+          console.log('sent to server')
+          
+        } catch (error) {
+          console.log('error sending the file to server',error)
+          
+        }
+        setLoading(false)
       }
         
     })
@@ -50,10 +68,18 @@ function MyDialog(props) {
       }
       async function handleSubmit(e) {
         e.preventDefault()
-        // eslint-disable-next-line no-unused-vars
-        const responce = await axios.patch(url+"api/workers/"+props.id,{[dialogData]:formData})
+        // const responce = await axios.patch(url+"api/workers/"+props.id,{[dialogData]:formData})
         console.log('clg submitted \n ' ,{[dialogData]:formData})
       }
+
+      if(loading){
+        return(<>
+        <Box sx={{p:12}}>
+          <MyLoading/>
+        </Box>
+        </>)
+      }
+
   
   return (
     <>

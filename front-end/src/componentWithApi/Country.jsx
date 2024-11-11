@@ -3,11 +3,15 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import MyLoading from "./EachWorker/MyLoading"
 import { useNavigate } from "react-router-dom"
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 
 function Country() {
     const url = import.meta.env.VITE_HOST
     const [data,setData] = useState()
     const [loading,setLoading] = useState([])
+    const [dstate,setDstate] = useState(false)
     const navigate = useNavigate()
 
 useEffect(()=>{
@@ -17,7 +21,21 @@ useEffect(()=>{
         setLoading(false)
     }
     fetch()
-},[])
+},[url,dstate])
+
+    const formik = useFormik({
+        initialValues:{
+            name:''
+        },
+        validationSchema: Yup.object({
+            name:Yup.string().required('Name is required')
+        }),
+        onSubmit:async (values)=>{
+            const res = await axios.post(`${url}api/country`,values)
+            console.log(res.data)
+            setDstate(false)
+        }
+    })
 
 if (loading) {
     return(<div style={{margin:'20% 47%',scale:'200%'}}>
@@ -31,30 +49,28 @@ if (loading) {
         <Stack direction={"row"}>
         
             <Typography variant="h4" width={'80%'}>Countries</Typography>
-            <Button variant="contained">New Country</Button>
+            <Button variant="contained" size="small" onClick={()=>setDstate(true)}>New Country</Button>
         </Stack>
 
-            <Dialog open={false}>
+            <Dialog open={dstate}>
                 <DialogTitle sx={{backgroundColor:"primary.main",mb:2}}>
-                   <Typography sx={{color:"text.main"}} variant="h4">New Arab</Typography> 
+                   <Typography sx={{color:"text.main"}} variant="h4">New Country</Typography> 
                 </DialogTitle>
 
                 <DialogContent >
                    
                     <Typography sx={{display:"inline-block",minWidth:"20%", pt:1,pr:2}} variant="h5">Name: </Typography>
-
-                    <TextField label='Name' name="name" size="small" sx={{mt:1}}/>
+                    
+                    <TextField label='Name' name="name" size="small" sx={{mt:1}} onChange={formik.handleChange}/>
+                    {formik.touched.name && formik.errors.name ? (<div style={{ color: 'red' ,marginLeft:'30%'}} >{formik.errors.name}</div>) : null}
                     <br/>
                     <br/>
-                    {/* <Typography sx={{display:"inline-block",minWidth:"23%"}} variant="h5">Id: </Typography> */}
-
-                    {/* <TextField label='Id' name="id" size="small" onChange={(e)=>handleChange(e)}/> */}
 
                 </DialogContent>
 
                 <DialogActions>
-                    <Button  variant="contained">submit</Button>
-                    <Button  variant="outlined">close</Button>
+                    <Button variant="contained" onClick={formik.handleSubmit}>submit</Button>
+                    <Button variant="outlined" onClick={()=>setDstate(false)}>close</Button>
                 </DialogActions>
 
             </Dialog>
@@ -84,7 +100,7 @@ if (loading) {
                             <Typography>{v.name}</Typography>
                             
                         </TableCell>
-                        <TableCell>0</TableCell>
+                        <TableCell>-</TableCell>
                     </TableRow>)
 
                     })}

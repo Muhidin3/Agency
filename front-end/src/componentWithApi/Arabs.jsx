@@ -26,7 +26,7 @@ function Arabs() {
 
         }
         fetchdata()
-    },[])
+    },[url])
 
     async function handlenumberOfWorkers(v) {
         const id = v._id

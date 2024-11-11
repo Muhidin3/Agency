@@ -4,9 +4,9 @@ import { Box } from "@mui/system"
 function Footer() {
   return (
     <>
-    <Box sx={{p:1,mt:5, bgcolor:'#1B263B'}}>
+    <Box sx={{p:1,mt:5, bgcolor:'#1B263B',textAlign:'center'}}>
 
-        <Typography variant="h1">Footer</Typography>
+        <Typography variant="subtitle1">Made by Muhidin Shmesu</Typography>
     </Box>
     </>
   )

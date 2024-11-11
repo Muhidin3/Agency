@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { Avatar, Box, Collapse, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Alert, Avatar, Box, Collapse, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import AvatarHead from "./EachWorker/AvatarHead"
 import MyTable from "./EachWorker/MyTable"
 import { useParams } from "react-router-dom"
 import axios from 'axios'
 import MyLoading from "./EachWorker/MyLoading"
+import CheckIcon from '@mui/icons-material/Check';
 
 
 
@@ -21,12 +22,13 @@ function EachWorker(props) {
             console.log(url+'api/workers/'+id)
             setinData(responce.data)
             setLoading(false)
+            // console.log(responce.data)
             
         }
         
         fetchData()
         
-    },[id])
+    },[id,url])
     
     if (loading) {
         return(<MyLoading/>)
@@ -36,7 +38,6 @@ function EachWorker(props) {
     //for collapse
 
     return (<>
-
     <AvatarHead name={data.name} 
                 pNum={data.ContactInfo.phoneNumber} />
     <Paper elevation={0} sx={{borderRadius:'10px',bgcolor:"rgba(63, 114, 175,0.1)"}}>

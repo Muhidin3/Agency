@@ -62,7 +62,7 @@ else if(typeof((data[dialogData])[v])=="string"){
         {/* <TextField label={(Object.keys(data[dialogData])[i])} onChange={(e)=>handleChange(e,v)}  name={Object.keys(data[dialogData])[i]} fullWidth/> */}
         <TextField label={(Object.keys(data[dialogData])[i])} 
                    name= {Object.keys(data[dialogData])[i]} fullWidth 
-                   onChange={formik.handleChange}  
+                   onChange={e=>formik.setFieldValue(Object.keys(data[dialogData])[i], e.target.value)}
                    />
     </>
     

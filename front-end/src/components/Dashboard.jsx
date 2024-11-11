@@ -3,6 +3,8 @@ import { Box, Button, Drawer, Grid2, Input, Paper, TextField, Typography } from 
 import { height } from "@mui/system"
 import { useNavigate } from "react-router-dom"
 import CountUp from 'react-countup';
+import backgroundimg from '../assets/brushed-alum.png' 
+ 
 // React
 // import { motion } from "framer-motion"
 
@@ -61,8 +63,8 @@ function Dashboard() {
               <Grid2 container columnSpacing={20} rowSpacing={3} sx={{p:1}}>
                   <Grid2 size={{xs:12,sm:6,md:6}} sx={{justifyItems:"center"}} onClick={()=>navigate('/recentWorkers')} >
               <motion.div initial={{x:-100}} animate={{x:0}} style={{width:"100%"}}>
-                    <Paper elevation={10} sx={{p:3,width:"100%",bgcolor:"#FAFAFA",borderRadius:"20px"}}>
-                        <Typography variant="h1" textAlign={"center"} color="text.primary">
+                    <Paper elevation={10} sx={{p:3,width:"100%",borderRadius:"20px",backgroundImage:`url(${backgroundimg})`}}>
+                        <Typography variant="h1" textAlign={"center"} color="text.primar,y">
                         <CountUp start={indata.numwork/2} end={indata.numwork} duration={3} separator="," />
                         </Typography>
                         <Typography textAlign={"center"} variant="h4" color="text.primary">Workers</Typography>

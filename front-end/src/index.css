@@ -2,14 +2,17 @@
     margin: 0;
 }
 body{
-    background: linear-gradient(220.55deg, #EAEAEA 0%, #8B8B8B 100%);    /* background-color: #F0F2F5; */
+    background-color: #EAEAEA;
+    background-image: url('./assets/cubes.png');
+    /* background: linear-gradient(220.55deg, #EAEAEA 0%, #8B8B8B 100%);    background-color: #F0F2F5; */
+
     /* background-color: rgb(13, 23, 33); */
     /* color: rgba(26, 33, 48, 0.89); */
 }
 
 aaaaaaa{
     background-color: #F9F7F7;
-    background-color: #DBE2EF;
+    background-color: #dbe2ef;
     background-color: #3F72AF;
     background-color: #112D4E;
 }
@@ -21,5 +24,6 @@ aaaaaa{
 }
 fsa{
     color: #ffffff;
-    color: #506b72;
+    color: rgb(106, 154, 176);
+    
 }

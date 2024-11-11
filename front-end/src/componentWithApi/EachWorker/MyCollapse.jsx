@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import { Collapse, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Collapse, Dialog, DialogTitle, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import CamelToSpaces from "../../components/CamelToSpaces";
+import { Box } from "@mui/system";
 
-function MyCollapse(props) {
-    const data = props.data
-    const collapse = props.collapse
-    
+function MyCollapse({data,collapse,handleClick}) {
     let a =[]
     for(let key in data){
         a.push(key)
@@ -21,12 +19,22 @@ function MyCollapse(props) {
                 
                 if((data[p.text]).slice(0,5)=='s3://'){
                     // console.log(data[p.text])
-                    return(<h4>see the file</h4>)
-                }else{
+                    if ((data[p.text]).slice(5).length > 5) {
+
+                        return(<><Box onClick={()=>handleClick(data[p.text])}>
+                                    <Link sx={{cursor:'pointer',color:'darkgreen'}}>see the file</Link>
+                                  </Box></>)
+                        
+                    } else {
+                        return(<p style={{color:'brown'}} >File not uploaded</p>)
+                    }
+
+
+                }else{//textdata
                     return(<p>{(data[p.text]).slice(5)}</p>)
                 }
-
-            }else{
+                
+            }else{//for boolean
                 return(<p>{data[p.text]==false?
                     '---':data[p.text]==true?
                     'Yes':(data[p.text]).slice(5)
@@ -59,7 +67,6 @@ function MyCollapse(props) {
                             </TableCell>
                             <TableCell> 
                             <ShowFile text ={keyValue}/>
-                            {/* {data[keyValue]==false?'-':data[keyValue]==true?'Yes':(data[keyValue]).slice(5)} */}
                             </TableCell>
                         </TableRow>
                     </TableBody>
@@ -71,7 +78,8 @@ function MyCollapse(props) {
             
 
         })}
-        {/* {showData()} */}
+        
+        
     </>
     )
 }

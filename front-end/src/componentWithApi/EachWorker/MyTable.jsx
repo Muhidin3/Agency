@@ -2,10 +2,10 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import MyCollapse from "./MyCollapse"
 import { useState } from "react"
-import { borderRadius } from "@mui/system"
 import MyDialog from "./MyDialog"
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Check from "./Check"
+import ShowFile from "./ShowFile"
 
 function MyTable(prop) {
   const rawdata = prop.data
@@ -46,10 +46,12 @@ function MyTable(prop) {
   }
   
 
- async function abc(keyIndex) {
-  return 'none'
- }
-
+const [showFileState,setShowFileState] = useState(false)
+const [url,setUrl] =useState('')
+function handleShowFile(argurl) {
+  setShowFileState(!showFileState)
+  setUrl(argurl)
+}
   
   return (
     <>
@@ -93,7 +95,7 @@ function MyTable(prop) {
 
               <TableRow sx={{display:display[keyIndex]?'block':'none'}}>
               <TableCell size="small" sx={{borderBottom:0}}>
-                <MyCollapse data={data[keyValue]} collapse={collapse[keyIndex]} />
+                <MyCollapse data={data[keyValue]} collapse={collapse[keyIndex]} handleClick={handleShowFile}/>
               </TableCell>
 
               </TableRow>
@@ -104,6 +106,7 @@ function MyTable(prop) {
 
 
         </Table>
+        
       </TableContainer>
 
                 <Dialog open={dialog}
@@ -114,6 +117,7 @@ function MyTable(prop) {
                     <MyDialog diagData={dialogData} data={data} id={prop.id} dialog={dialog} setDialog={setDialog}/>  
                     
                 </Dialog>
+          <ShowFile title={'CV'} state={showFileState} url={url} handleClick={handleShowFile}/>
     </>
   )
 }

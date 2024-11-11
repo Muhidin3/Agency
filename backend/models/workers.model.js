@@ -6,12 +6,12 @@ const workerSchema = new mongoose.Schema({
         type:String,default:'None'
     },
     arab:{
-        type:Schema.Types.ObjectId,
-        ref:'arabs'
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Arab'
     },
     country:{
         type:Schema.Types.ObjectId,
-        ref:'country'
+        ref:'Country'
     },    
     LegalDocuments:{
         cv:{

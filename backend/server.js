@@ -9,7 +9,8 @@ import Worker from './models/workers.model.js'
 import Arab from './models/arabs.model.js'
 import { fileURLToPath } from 'url'
 
-import { S3Client,PutObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client,PutObjectCommand,GetObjectCommand } from '@aws-sdk/client-s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import multer from 'multer'
 import fileUpload from 'express-fileupload'
 import Country from './models/country.model.js'
@@ -22,10 +23,11 @@ connectDB()
 
 const app = express()
 
-app.use(express.json())      // allow to pass json to body
-app.use(bodyParser.urlencoded({limit:"10mb",extended:true}))
-app.use(bodyParser.json({limit:"10mb"}))
-app.use(cors())
+app.use(express.json());      // allow to pass json to body
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+app.use(cors());
+app.use(fileUpload());
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename);
@@ -152,7 +154,7 @@ app.get('/api/country',async (req,res)=>{
 app.post('/api/country',async (req,res)=>{
     const newCountry = new Country(req.body)
     await newCountry.save()
-    res.send(`${newCountry.name} saved successfuly`)
+    res.send(`${newCountry.name} added successfuly`)
 })
 
 
@@ -186,8 +188,16 @@ app.get('/api/workers', async (req,res) => {
 app.post('/api/workers',async (req,res) => {
     const worker = req.body 
     const newWorker = new Worker(worker)
+
+
+    // const arab = await Arab.findOne({_id:req.body.arab})
+    // console.log(await Worker.findOne({_id:'6730400eccef7eae199a1bfe'}).populate('arab').exec())
+
+
+
+
     await newWorker.save()
-    res.send('saved succsfully \n'+ await Worker.find())
+    res.send('saved succsfully \n')
 });
 
 
@@ -196,15 +206,25 @@ app.patch('/api/workers/:id',async (req,res) => {
     const data = req.body
     const {key ,...workerData} = data 
     const files = req.files
-    // console.log("body:::::",workerData)
-    // console.log("files::::",files)
+    console.log("body:::::",req.body)
+    console.log("files::::",files)
     let error = false
     try {
         Object.keys(workerData).map((key,index)=>{
+            if(workerData[key]=='true'|| workerData[key]=='false'){
+                return
+            }
+            if(workerData[key].slice(0,5)=='tx://'||workerData[key].slice(0,5)=='s3://'){
+                return
+            }
             workerData[key]= "tx://"+workerData[key]
         })
+
         Object.keys(files).map((key,index)=>{
-            workerData[key]=('s3://'+files[key].md5)
+            if(typeof(files[key])=='object'){
+                workerData[key]=('s3://'+files[key].md5)
+            }
+
         })
     } catch (error) {
         console.log('error from data',error.message)
@@ -212,9 +232,11 @@ app.patch('/api/workers/:id',async (req,res) => {
     }
     const worker = {[key]:workerData}
 
+    console.log(worker)
+
+    // error = true
     if(!error){
-        
-        Object.keys(files).map(async (key,index)=>{
+       Object.keys(files).map(async (key,index)=>{
             try {
                 const params = {
                     Bucket:BucketName,
@@ -225,21 +247,35 @@ app.patch('/api/workers/:id',async (req,res) => {
     
                 const command = new PutObjectCommand(params)
                 await s3.send(command)
-                const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
-                console.log("uploaded to s3 successfully")
+                console.log("Saved Successfully")
                 
             } catch (error) {
                 console.log("error while uploading",error.message)
+                res.send('error saving file')
+                return
             }
         })
-
+        const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
+        res.send('Saved Successfully')
     }
 
 
-    // console.log(worker)
-    res.send('updated succsfully')
-    // res.send('updated succsfully \n'+ await Worker.findById(req.params.id))
 })
+
+app.get('/api/getfile/:id',async (req,res)=>{
+
+    // console.log(req.params.id)
+    const fileId = req.params.id
+    const getObjectParams = {
+        Bucket:BucketName,
+        Key:fileId
+    }
+    const command = new GetObjectCommand(getObjectParams)
+    const url = await getSignedUrl(s3,command,{expiresIn:60})
+    res.send(url)
+})
+
+
 
 
 app.get('/api/workers/:id', async (req,res) => {
@@ -272,7 +308,6 @@ app.get('/api/dash',async (req,res)=>{
     }
     res.send(sendedFile)
 })
-
 
 app.patch('/api/dash',async (req,res)=>{
     await Dashboard.findByIdAndUpdate('672b59e85b195015f24febf2',req.body)
