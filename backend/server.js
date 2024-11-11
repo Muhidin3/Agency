@@ -19,7 +19,11 @@ import Dashboard from './models/dashboard.model.js'
 
 
 dotenv.config()
-connectDB()
+try {
+    connectDB() 
+} catch (error) {
+    console.log(error.message)
+}
 
 const app = express()
 
@@ -32,7 +36,8 @@ app.use(fileUpload());
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename);
 
-app.use(express.static(path.join(__dirname,'../front-end/dist')))
+// app.use(express.static(path.join(__dirname,'./dist')))
+app.use('/assets',express.static(path.join(__dirname,'dist','index.html')))
 
 
 
@@ -315,7 +320,7 @@ app.patch('/api/dash',async (req,res)=>{
 })
 
 app.get('*',(req,res)=>{
-    const page = path.join(__dirname, './dist/index.html')
+    const page = path.join(__dirname, 'dist','index.html')
     res.sendFile(page)
 })
     
