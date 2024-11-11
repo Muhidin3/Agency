@@ -8,7 +8,6 @@ import MyLoading from './MyLoading'
 import image from 'c:/Users/HP/Documents/Export/Photos/smile walpaper.png'
 
 
-// eslint-disable-next-line react/prop-types
 function ShowFile({state,title,url,handleClick}) {
     //const [istate,setIstate] = useState(state)
     const [imgurl,setImgurl] = useState('')
@@ -28,10 +27,10 @@ function ShowFile({state,title,url,handleClick}) {
                 console.log('error happend fetching the file',error.message)
                 return
             }
-            
+
         } 
         fetchdata()
-    },[id])
+    },[hosturl, id])
 
 
   return (
