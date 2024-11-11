@@ -15,7 +15,7 @@ import axios from "axios";
 
 function Dashboard() {
     const navigate = useNavigate()
-    const [indata,setinData] = useState()
+    const [indata,setinData] = useState([])
     const url = import.meta.env.VITE_HOST
     const [loading,setLoading] = useState(true)
     const [arabs,setArabs] = useState()
