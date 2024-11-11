@@ -315,11 +315,11 @@ app.patch('/api/dash',async (req,res)=>{
 })
 
 app.get('*',(req,res)=>{
-    const page = path.join(__dirname, '../front-end/dist/index.html')
+    const page = path.join(__dirname, './dist/index.html')
     res.sendFile(page)
 })
     
     
     
-let Port = 3000
+let Port = 300
 app.listen(process.env.Port || Port,()=>console.log(`web is running on port ${Port}`))
