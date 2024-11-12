@@ -31,7 +31,7 @@ app.use('/api',APIs)
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV ==='production') {
-    app.use(express.static(path.join(__dirname,'..','front-end','dist')))
+    app.use(express.static(path.join(__dirname,'front-end','dist')))
     
     app.get('*',(req,res)=>{
         const page = path.resolve(__dirname,'front-end','dist','index.html')
