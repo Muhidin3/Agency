@@ -6,6 +6,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import {useNavigate,useParams} from 'react-router-dom'
 import MyLoading from "../componentWithApi/EachWorker/MyLoading"
+import MyDelete from "../componentWithApi/EachWorker/MyDelete"
 
 function Workers() {
     const [data,setData] = useState([])
@@ -26,7 +27,7 @@ function Workers() {
         setIsLoading(false)
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[url,isLoading])
 
     const handleClick = (id) => {
         navigate('/eachWorker/'+ id)
@@ -46,6 +47,8 @@ function Workers() {
         // eslint-disable-next-line no-unused-vars
         const responce = await axios.post(`${url}api/workers`,{name:formData,arab:id})
         console.log(`saved`)
+        setIsLoading(true)
+        setDialog(false)
     }
 
 
@@ -77,16 +80,19 @@ function Workers() {
             {/* <Paper sx={{m:2}}> */}
                         
 
-            <TableContainer>
-                <Table>
+            <TableContainer sx={{borderRadius:'20px 20px 0 0'}}>
+                <Table >
 
-                    <TableHead>
-                    <Paper sx={{bgcolor:"rgba(1,1,1,0.1)", zIndex:"-1"}} elevation={0}>
+                    <TableHead >
 
-                        <TableRow>
-                            <TableCell >Workers </TableCell>
+                        <TableRow sx={{bgcolor:"rgba(1,1,1,0.1)", zIndex:"-1"}}>
+                    {/* <Paper sx={{bgcolor:"rgba(1,1,1,0.1)", zIndex:"-1"}} elevation={0}> */}
+                            <TableCell sx={{width:'80%'}}> Workers </TableCell>
+
+                            <TableCell> Delete </TableCell>
+                    {/* </Paper> */}
                         </TableRow>
-                    </Paper>
+                        
                     </TableHead>
 
                     <TableBody>
@@ -97,6 +103,12 @@ function Workers() {
                                  onClick={()=>handleClick(v._id)}
                                  sx={{":hover":{bgcolor:'primary.light',cursor:'pointer'}}} key={v.id} >
                                     <Typography variant="h6">{v.name}</Typography>
+                                </TableCell>
+
+                                <TableCell>
+
+                                <MyDelete id={v._id} loading={setIsLoading} name={v.name}/>
+
                                 </TableCell>
                             </TableRow>                        
 

@@ -6,6 +6,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import {useNavigate} from 'react-router-dom'
 import MyLoading from "./EachWorker/MyLoading"
+import MyDelete from "./EachWorker/MyDelete"
 // import dotenv from 'dotenv'
 
 function RecentWorkers() {
@@ -18,14 +19,12 @@ function RecentWorkers() {
     useEffect(()=>{
         const fetchData = async () => {
             const res = await axios.get(url+'api/workers')
-            // .then(async (res)=> await  res.json())
             setData(res.data)
-            // console.log(res.data)
+            setIsLoading(false)    
         }
         fetchData()
-        setIsLoading(false)
     
-    },[url])
+    },[url,isLoading])
 
     const handleClick = (id) => {
         navigate('/eachWorker/'+ id)
@@ -47,8 +46,11 @@ function RecentWorkers() {
 
                     <TableHead sx={{backdropFilter:'invert(10%)'}}>
                         <TableRow>
-                            <TableCell> 
+                            <TableCell sx={{width:'90%'}}> 
                            <Typography variant="h5">Workers</Typography> 
+                            </TableCell>
+                            <TableCell> 
+                           <Typography variant="h5"></Typography> 
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -61,6 +63,10 @@ function RecentWorkers() {
                                  onClick={()=>handleClick(v._id)}
                                  sx={{":hover":{bgcolor:'#f5f5f5',cursor:'pointer'}}} key={v.id} >
                                     <Typography>{v.name}</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <MyDelete id={v._id} loading={setIsLoading} name={v.name}/>
+
                                 </TableCell>
                             </TableRow>                        
 

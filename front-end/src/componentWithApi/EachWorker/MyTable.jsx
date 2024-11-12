@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid2, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import MyCollapse from "./MyCollapse"
 import { useState } from "react"
 import MyDialog from "./MyDialog"
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Check from "./Check"
 import ShowFile from "./ShowFile"
+import MyDelete from "./MyDelete";
 
 function MyTable(prop) {
   const rawdata = prop.data
@@ -77,9 +79,9 @@ function handleShowFile(argurl) {
               <TableRow sx={{ cursor: "pointer", ":hover": { bgcolor: "rgba(1,1,1,0.1)" },borderTop:'1px solid rgba(224, 224, 224, 1)' }}>
                 <TableCell onClick={() => handleToogle(keyIndex)} sx={{width:'70%'}}>
                 <Stack direction={"row"}>
-
-                {/* <KeyboardArrowRightIcon sx={{width:'6%',marginTop:"5px"}}/> */}
-
+                <KeyboardArrowRightIcon sx={{scale:1.2,color:'primary.main',width:'6%',marginTop:"5px",display:display[keyIndex]?'none':'block'}}/>
+                <KeyboardArrowDown sx={{width:'6%',marginTop:"5px",display:display[keyIndex]?'block':'none'}}/>
+                
                 <Typography variant="h6" sx={{borderRight:'1px solid',width:"100%"}}>
                 {keyValue}
                 </Typography>
@@ -87,10 +89,22 @@ function handleShowFile(argurl) {
                 </Stack>
               </TableCell>
 
-                <TableCell>
-                  <Check data={data} keyI={keyIndex} keyV={keyValue}/>
-                  <Button variant="text" onClick={() => handleClick(keyValue)}>Change</Button>
+                {/* Change btn */}
+                <TableCell >
+                  <Grid2 container>
+
+                    <Grid2 size={{xs:4}}>
+                      <Check data={data} keyI={keyIndex} keyV={keyValue}/>
+                    </Grid2>
+
+                    <Grid2 size={{xs:4}}>
+                      <Button variant="text" onClick={() => handleClick(keyValue)}>Change</Button>
+                    </Grid2>
+
+
+                  </Grid2>
                 </TableCell>
+
               </TableRow>
 
               <TableRow sx={{display:display[keyIndex]?'block':'none'}}>
