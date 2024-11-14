@@ -32,10 +32,17 @@ function MyDrawer({state,setState}) {
         setCollapseState({...collapseState,[num]:!collapseState[num]})
     }
 
+    function handleClick(v,i){
+        i==0 && navigate('/')
+        i==1 && navigate('/recentWorkers')
+        i==2 && navigate('/arabs')
+        i==3 && navigate('/country')
+        setState(false)
+    }
   return (<>
 
-    <Drawer open={state} onClose={()=>setState(false)}>
-    <Box sx={{minWidth:'200px'}} >
+    <Drawer open={state} onClose={()=>setState(false)} >
+    <Box sx={{minWidth:'200px',bgcolor:'#eaeaea', height:'100%'}} >
           
           {/* head */}
         <Stack direction={'row'}>
@@ -44,7 +51,7 @@ function MyDrawer({state,setState}) {
 
               <Box sx={{position:"relative",mt:2.5,right:0}}>
               <Button sx={{p:0,m:0}} onClick={()=>setState(!state)}>
-                <MenuOpenIcon fontSize='large'/>
+                <MenuOpenIcon fontSize='large' />
               </Button>
               </Box>
         </Stack>
@@ -52,7 +59,8 @@ function MyDrawer({state,setState}) {
       <List>
         {['Dashboard','Recent Workers','Arabs','Countries'].map((v,i)=>{
             return(
-            <ListItem key={i} sx={{cursor:'pointer',':hover':{scale:1.2,pl:5},transitionDuration:'0.3s'}}>
+            <ListItem key={i} sx={{cursor:'pointer',':hover':{scale:1.2,pl:5},transitionDuration:'0.3s'}}
+            onClick={()=>handleClick(v,i)}>
                     <ListItemIcon>
                     {i==0 && <DashboardIcon/>}
                     {i==1 && <RecentActors/>}

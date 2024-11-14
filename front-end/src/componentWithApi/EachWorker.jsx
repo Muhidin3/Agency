@@ -12,6 +12,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 function EachWorker(props) {
     const [indata,setinData]= useState({})
+    const [arabData,setArabData] = useState()
     const data = indata
     const [loading,setLoading] = useState(true)
     const {id} = useParams()
@@ -20,7 +21,9 @@ function EachWorker(props) {
         async function fetchData(params) {
             const responce = await axios.get(url+'api/workers/'+id)
             console.log(url+'api/workers/'+id)
-            setinData(responce.data)
+            setinData(responce.data[0])
+            setArabData(responce.data[1])
+
             setLoading(false)
             // console.log(responce.data)
             
@@ -38,8 +41,11 @@ function EachWorker(props) {
     //for collapse
 
     return (<>
+
     <AvatarHead name={data.name} 
-                pNum={data.ContactInfo.phoneNumber} />
+                arabdata ={arabData}
+                data={data}
+                />
     <Paper elevation={0} sx={{borderRadius:'10px',bgcolor:"rgba(63, 114, 175,0.1)"}}>
         <form encType="">
 

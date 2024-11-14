@@ -29,10 +29,6 @@ const s3 = new S3Client({
 
 const client = new S3Client({region:BucketRegion})
 
-router.get('/try',async(req,res)=>{
-    res.send('sum')
-});
-
 router.get('/country',async (req,res)=>{
 
     try{
@@ -61,13 +57,36 @@ router.get('/arabs', async (req,res)=>{
     const data = await Arab.find()
     res.send(data)
 });
+router.get('/search',async (req,res) => {
+    
+    try {
+        const searchTerm = req.query.name
+        const regx =new RegExp(searchTerm,'i')
+        const data = await Worker.find({name:regx}).exec();
+        res.send(data)     
+        
+    } catch (error) {
+        res.send('error'+error.message)
+    }
+})
 
 router.post('/arabs',async (req,res)=>{
 
     const newArab = new Arab(req.body)
 
     await newArab.save()
-    res.send('saved \n'+await Arab.find())  
+    res.send(`${req.body.name} saved successfuly!`)  
+});
+
+
+router.delete('/arabs/:id',async (req,res) => {
+    try {
+        await Arab.findByIdAndDelete(req.params.id)
+        res.send('Deleted successfully')    
+    } catch (error) {
+        res.send(`error deleting file${error}`)
+    }
+    
 });
 
 
@@ -82,25 +101,41 @@ router.post('/workers',async (req,res) => {
     const newWorker = new Worker(worker)
     
     await newWorker.save()
-    res.send('saved succsfully \n')
+    res.send(`${req.body.name} saved succsfully`)
 });
 
 router.delete('/workers/:id',async (req,res) => {
     try {
         await Worker.findByIdAndDelete(req.params.id)
-        res.send('deleted')    
+        res.send('Deleted successfully')    
     } catch (error) {
-        res.send(['error deleting file',error.message])
+        res.send('error deleting file')
     }
     
 });
 
 
 router.patch('/workers/:id',async (req,res) => {
-    const data = req.body
-    const {key ,...workerData} = data 
+    const {key ,...workerData} = req.body 
     const files = req.files
-    console.log("body:::::",req.body)
+
+
+    if(files==null){
+        let datatoSend = {}
+        for(let keys in workerData){
+            if(workerData[keys].slice(0,5)!='s3://' && workerData[keys].slice(0,5)!='tx://')
+                datatoSend[keys] = "tx://"+workerData[keys]
+                // console.log('no need to take long path',keys,':',workerData[keys])
+        }
+        const worker = {[key]:datatoSend}
+        await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
+        // console.log(worker)
+        
+        res.send('Updated Successfully ')
+        return
+    }
+
+    // console.log("body:::::",req.body)
     console.log("files::::",files)
     let error = false
     try {
@@ -108,7 +143,7 @@ router.patch('/workers/:id',async (req,res) => {
             if(workerData[key]=='true'|| workerData[key]=='false'){
                 return
             }
-            if(workerData[key].slice(0,5)=='tx://'||workerData[key].slice(0,5)=='s3://'){
+            else if(workerData[key].slice(0,5)=='tx://'||workerData[key].slice(0,5)=='s3://'){
                 return
             }
             workerData[key]= "tx://"+workerData[key]
@@ -130,8 +165,8 @@ router.patch('/workers/:id',async (req,res) => {
 
     // error = true
     if(!error){
-       Object.keys(files).map(async (key,index)=>{
-            try {
+        try {
+        Object.keys(files).map(async (key,index)=>{
                 const params = {
                     Bucket:BucketName,
                     Key:files[key].md5,
@@ -143,18 +178,25 @@ router.patch('/workers/:id',async (req,res) => {
                 await s3.send(command)
                 console.log("Saved Successfully")
                 
-            } catch (error) {
-                console.log("error while uploading",error.message)
-                res.send('error saving file')
-                return
-            }
-        })
+            })
+        } catch (error) {
+            console.log("error while uploading",error.message)
+            return
+        }
         const updatedWorker = await Worker.findByIdAndUpdate(req.params.id,worker,{new:true})
         res.send('Saved Successfully')
     }
 
 
 })
+
+router.get('/workers/:id', async (req,res) => {
+    var data = await Worker.findById(req.params.id)
+    var arab = await Arab.findById(data.arab).populate('country').exec();
+    
+    res.send([data,arab])
+
+});
 
 router.get('/getfile/:id',async (req,res)=>{
 
@@ -172,10 +214,6 @@ router.get('/getfile/:id',async (req,res)=>{
 
 
 
-router.get('/workers/:id', async (req,res) => {
-    const data = await Worker.findById(req.params.id)
-    res.send(data)
-});
 
 
 

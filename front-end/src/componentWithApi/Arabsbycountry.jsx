@@ -4,30 +4,31 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Table, 
 import { Stack } from "@mui/system"
 import { useNavigate, useParams } from "react-router-dom"
 import MyLoading from "./EachWorker/MyLoading"
+import { useSnackbar } from "../components/SnackbarContext"
+import MyDelete from "./EachWorker/MyDelete"
 
 
 function Arabsbycountry() {
     const [arabs,setArabs] = useState([])
     const [loadind,setLoading] = useState(true)
     const [dialog,setDialog] = useState(false)
-    const [formData,setFormData] = useState({name:'',id:''})
+    const {id} = useParams()
+    const [formData,setFormData] = useState({name:'',country:id})
     const [numberOfWorkers,setNum] = useState([])
     const navigate = useNavigate()
     const url = import.meta.env.VITE_HOST
-    const {id} = useParams()
+    const showSnack = useSnackbar();
 
     useEffect(()=>{
         async function fetchdata() {
             const responce = await axios.get(url+'api/arabsbycountry/'+id)
             // console.log(responce.data)
-            console.log(responce.data)
+            // console.log(responce.data)
             setArabs(responce.data)
             setLoading(false)
-            
-
         }
         fetchdata()
-    },[])
+    },[dialog])
 
     async function handlenumberOfWorkers(v) {
         const id = v._id
@@ -42,9 +43,10 @@ function Arabsbycountry() {
 
     
     async function handleSubmit() {
-        // eslint-disable-next-line no-unused-vars
         const responce = await axios.post(url+'api/arabs',formData)
-        console.log('submitted')
+        // console.log(responce.data)
+        setDialog(false)
+        showSnack(responce.data,'success')
     }
 
     function handleChange(e) {
@@ -117,7 +119,13 @@ function Arabsbycountry() {
                             <Typography>{v.name}</Typography>
                             
                         </TableCell>
-                        <TableCell>{numberOfWorkers[i]}</TableCell>
+                        <TableCell> 
+                        <Box sx={{display:'inline-block',mr:3}}><Typography variant="h5"> {numberOfWorkers[i]}</Typography> </Box>
+
+                            <Box sx={{display:'inline-block',ml:4,paddingTop:'3px'}}>
+                            <MyDelete  id={v._id} name={v.name} loading={setLoading} isarab={true}/>
+                            </Box>
+                        </TableCell>
                     </TableRow>
 
                     )

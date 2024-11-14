@@ -15,13 +15,13 @@ function Header() {
 
     
     
-    <Paper elevation={5} sx={{width:"100%",position:'sticky',top:"0px",zIndex:'1',backgroundColor:'rgba(24, 143, 255, 0)'}}>
+    <Paper elevation={5} sx={{width:"100%",position:'sticky',top:"0px",zIndex:'2',backgroundColor:'rgba(24, 143, 255, 0)'}}>
       <Box sx={{pr:0,mb:2,color:'whitesmoke',backgroundColor:'rgba(63, 114, 175, 0.5)',backdropFilter:'blur(8px)',width:"100%"}}>
         <Stack direction={'row'}>
               <Box sx={{position:"absolute",mt:2}}>
 
               <Button sx={{p:0,m:0}} onClick={()=>setState(!state)}>
-                <MenuOpenIcon fontSize='large'/>
+                <MenuOpenIcon fontSize='large' sx={{transform:'rotate(180deg)'}}/>
               </Button>
 
               </Box>

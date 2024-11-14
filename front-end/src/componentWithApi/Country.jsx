@@ -5,6 +5,7 @@ import MyLoading from "./EachWorker/MyLoading"
 import { useNavigate } from "react-router-dom"
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useSnackbar } from "../components/SnackbarContext"
 
 
 function Country() {
@@ -13,6 +14,7 @@ function Country() {
     const [loading,setLoading] = useState([])
     const [dstate,setDstate] = useState(false)
     const navigate = useNavigate()
+    const showSnack = useSnackbar();
 
 useEffect(()=>{
     const fetch = async ()=>{
@@ -32,8 +34,9 @@ useEffect(()=>{
         }),
         onSubmit:async (values)=>{
             const res = await axios.post(`${url}api/country`,values)
-            console.log(res.data)
+            // console.log(res.data)
             setDstate(false)
+            showSnack(res.data,'success')
         }
     })
 

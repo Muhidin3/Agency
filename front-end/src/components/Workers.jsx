@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import {useNavigate,useParams} from 'react-router-dom'
 import MyLoading from "../componentWithApi/EachWorker/MyLoading"
 import MyDelete from "../componentWithApi/EachWorker/MyDelete"
+import { useSnackbar } from "./SnackbarContext"
 
 function Workers() {
     const [data,setData] = useState([])
@@ -16,6 +17,7 @@ function Workers() {
     const [dialog,setDialog] = useState(false)
     const [formData,setFormData] = useState('')
     const url = import.meta.env.VITE_HOST
+    const showSnack = useSnackbar();
 
     useEffect(()=>{
         const fetchData = async () => {
@@ -39,14 +41,14 @@ function Workers() {
     }
     function handleChange(e) {
         setFormData(e.target.value)
-        console.log({name:formData})
+        // console.log({name:formData})
     }
 
     async function handleSubmit() {
         
-        // eslint-disable-next-line no-unused-vars
         const responce = await axios.post(`${url}api/workers`,{name:formData,arab:id})
         console.log(`saved`)
+        showSnack(responce.data,'success')
         setIsLoading(true)
         setDialog(false)
     }

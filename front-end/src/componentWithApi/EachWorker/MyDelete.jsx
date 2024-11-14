@@ -4,27 +4,37 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typogra
 import axios from 'axios'
 import { useState } from 'react'
 import MyLoading from './MyLoading'
+import { useSnackbar } from '../../components/SnackbarContext'
 
-function MyDelete({id,loading,name}) {
+function MyDelete({id,loading,name,isarab=false}) {
     const url = import.meta.env.VITE_HOST
     const [dialog,setDialog] = useState(false)
     const [dialogloading,setLoading] = useState(false)
-
+    const showSnack = useSnackbar();
 
     async function handleClick(){
         setLoading(true)
         try {
-            
-            const res = await axios.delete(`${url}api/workers/${id}`)
-            console.log('deleted',res.data)
-            loading(true)
+            if(isarab){
+                const res = await axios.delete(`${url}api/arabs/${id}`)
+                // console.log('deleted',res.data)
+                showSnack(res.data,'info')
+                loading(true)
+            }
+            else{
+                const res = await axios.delete(`${url}api/workers/${id}`)
+                // console.log('deleted',res.data)
+                showSnack(res.data)
+                loading(true)
+            }
 
             
         } catch (error) {
             console.log('connection error',error.message)
+            showSnack('Error deleting worker','error')
         }
+        loading(false)
         setLoading(false)
-
 
     }
 

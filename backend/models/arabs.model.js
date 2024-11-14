@@ -5,7 +5,7 @@ const arabsSchema = new mongoose.Schema({
     name:String,
     country:{
         type:Schema.Types.ObjectId,
-        ref:'country'
+        ref:'Country'
     }
 },{
     timestamps:true

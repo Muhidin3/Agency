@@ -12,6 +12,7 @@ import backgroundimg from '../assets/brushed-alum.png'
 import * as motion from "framer-motion/client"
 import { useEffect, useState } from "react";
 import axios from "axios";
+import MySearch from "./MySearch";
 
 function Dashboard() {
     const navigate = useNavigate()
@@ -43,18 +44,7 @@ function Dashboard() {
       <Grid2 container spacing={3}>
             {/* search */}
           <Grid2 size={{xs:12}} sx={{justifyItems:"center",mb:15,mt:10}}>
-          <motion.div 
-            // className="box"
-            initial={{ opacity: 1, scale: 1,y:-100 }}
-            animate={{ opacity: 1, scale: 1,y:10,transitionDuration:"0.2s" }}
-            
-          > 
-              <Paper elevation={10} sx={{p:3,width:"70%",borderRadius:"200px"}} >
-                      {/* <TextField sx={{}} variant="filled" label="Search" fullWidth></TextField> */}
-                      {/* <Input placeholder="search" fullWidth sx={{border:"10px solid white",borderBottom:0,borderRadius:"20px"}}/> */}
-                    <input style={{width:"100%",outline:0,border:0,fontSize:"1.3rem"}} placeholder="Search"/>
-              </Paper>          
-          </motion.div>
+          <MySearch/>
           </Grid2>
 
           <Grid2 size={{xs:12}} sx={{mb:12}}>

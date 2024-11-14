@@ -123,9 +123,8 @@ function handleShowFile(argurl) {
         
       </TableContainer>
 
-                <Dialog open={dialog}
-                        PaperProps={{sx:{borderRadius:'20px',p:2}}}>
-                  <DialogTitle>{dialogData}</DialogTitle>
+                <Dialog open={dialog} PaperProps={{sx:{borderRadius:'20px'}}}>
+                  <DialogTitle sx={{backgroundColor:'primary.main',color:'text.main'}}>{dialogData}</DialogTitle>
                     
 
                     <MyDialog diagData={dialogData} data={data} id={prop.id} dialog={dialog} setDialog={setDialog}/>  
