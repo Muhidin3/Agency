@@ -46,7 +46,7 @@ function MySearch() {
               </Paper>          
           </motion.div>
 
-              <Paper elevation={10} sx={{p:2,mt:2,borderRadius:"20px",display:'block'}} >
+              <Paper elevation={10} sx={{display:data.length==0?'none':'block',p:2,mt:2,borderRadius:"20px"}} >
                 {data.map((v,i)=>{
                   return(<Box key={i} sx={{
                                           borderBottom:'1px solid grey',
